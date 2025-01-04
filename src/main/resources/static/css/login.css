@@ -1,0 +1,66 @@
+/*Login Page Body */
+body {
+    background-color: #013220;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+/*Login Form*/
+form {
+    background-color: #013220;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+}
+
+/*Title*/
+h1 {
+    color: white;
+    text-align: center;
+    font-size: 60px;
+    margin-bottom: 60px;
+}
+
+/*Element Spacing*/
+div {
+    margin-bottom: 15px;
+}
+
+/*Text Boxes*/
+input[type="text"],
+input[type="password"] {
+    display: block;
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 0 auto 10px auto;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+/*Login Button*/
+button {
+    display: block;
+    width: 50%;
+    padding: 10px;
+    background-color:#013220;
+    color: white;
+    border: 2px solid white;
+    border-radius: 5px;
+    height: 50px;
+    margin: 0 auto;
+}
+
+/*Registration Link*/
+a {
+    display: block;
+    margin-top: 10px;
+    color: white;
+    text-align: center;
+}

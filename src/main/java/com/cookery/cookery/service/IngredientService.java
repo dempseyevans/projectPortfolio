@@ -19,14 +19,16 @@ public class IngredientService {
         return ingredientRepository.findAll();
     }
 
+    public Optional<Ingredient> findById(Long id) {
+            return ingredientRepository.findById(id);
+        }
+
+
+    //CRUD FUNCTIONALITY BELOW
     public Ingredient save(Ingredient ingredient){
         return ingredientRepository.save(ingredient);
     }
-
-    public Optional<Ingredient> findById(Long id) {
-        return ingredientRepository.findById(id);
-    }
-
+    
     public void deleteById(Long id){
         ingredientRepository.deleteById(id);
     }

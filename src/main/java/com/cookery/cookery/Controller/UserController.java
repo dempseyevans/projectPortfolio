@@ -15,9 +15,6 @@ import com.cookery.cookery.entity.User;
 import com.cookery.cookery.service.UserService;
 
 
-
-
-
 @Controller
 @RequestMapping("/users")
 public class UserController {
@@ -27,16 +24,17 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    //REGISTER
+    //Display Registration form
     @GetMapping("/register")
     public String registrationForm(Model model) {
         logger.info("Accessing registration form");
-        model.addAttribute("pageTitle", "User Registration");
-        model.addAttribute("headerText", "Register");
         model.addAttribute("user", new User());
         return "register";
     }
     
+    //Save new user
+    //Try-catch handling for debugging save actions
+    //If-else statement verifies email validity
     @PostMapping("/register")
     public String registerUser(@ModelAttribute User user)
     {
@@ -59,6 +57,7 @@ public class UserController {
         }
     }
 
+    /**FIND USER FOR TESTING**/
     @GetMapping("/{username}")
     public User getUserbyUsername(@PathVariable String username) {
         

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipes</title>
+</head>
+<body>
+    <nav>
+        <a href="/ingredients">Ingredients</a>
+    </nav>
+    <h1>Recipes</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Cook Time</th>
+                <th>Cost</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="recipe : ${recipes}">
+                <td><a th:href="@{/recipes/view/{id}(id=${recipe.recipeID})}" th:text="${recipe.name}"></a></td>
+                <td th:text="${recipe.cookTime}"></td>
+                <td th:text="${recipe.cost}"></td>
+                <td>
+                    <a th:href="@{/recipes/edit/{id}(id=${recipe.recipeID})}">Edit</a>
+                    <a th:href="@{/recipes/delete/{id}(id=${recipe.recipeID})}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/recipes/new">Add Recipe</a>
+</body>
+</html>

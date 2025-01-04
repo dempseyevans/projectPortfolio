@@ -26,6 +26,8 @@ private static final Logger logger = LoggerFactory.getLogger(IngredientControlle
     @Autowired
     private IngredientService ingredientService;
 
+    //Display Ingredients as a list
+    //Exception handling for debugging service error 500
     @GetMapping
     public String listIngredients(Model model) {
         try{
@@ -37,12 +39,14 @@ private static final Logger logger = LoggerFactory.getLogger(IngredientControlle
         return "ingredients";
     }
 
+    //Display create new ingredient Form
     @GetMapping("/new")
     public String newIngredientForm(Model model) {
         model.addAttribute("ingredient", new Ingredient());
         return "addIngredientForm";
     }
 
+    //CRUD METHODS BELOW
     @PostMapping
     public String saveIngredient(@ModelAttribute Ingredient ingredient) {
         ingredientService.save(ingredient);
@@ -52,12 +56,8 @@ private static final Logger logger = LoggerFactory.getLogger(IngredientControlle
     @GetMapping("/edit/{id}")
     public String editIngredientForm(@PathVariable Long id, Model model) {
         Optional<Ingredient> ingredient = ingredientService.findById(id);
-        if (ingredient.isPresent()) {
-            model.addAttribute("ingredient", ingredient.get());
-            return "addIngredientForm";
-        } else {
-            return "redirect:/ingredients";
-        }
+        model.addAttribute("ingredient", ingredient.get());
+        return "redirect:/ingredients";
     }
 
     @PostMapping("/update")

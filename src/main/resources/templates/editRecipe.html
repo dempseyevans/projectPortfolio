@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Recipe</title>
+</head>
+<body>
+    <h1>Edit Recipe</h1>
+    <form th:action="@{/recipes/update}" method="post" th:object="${recipe}">
+        <div>
+            <label for="name">Name:</label>
+            <input type="text" id="name" th:field="*{name}" required>
+        </div>
+        <div>
+            <label for="cookTime">Cook Time:</label>
+            <input type="text" id="cookTime" th:field="*{cookTime}" required>
+        </div>
+        <div>
+            <label for="instructions">Instructions:</label>
+            <textarea id="instructions" th:field="*{instructions}" required></textarea>
+        </div>
+        <div>
+            <label for="cost">Cost:</label>
+            <input type="number" step="0.01" id="cost" th:field="*{cost}">
+        </div>
+        <div>
+            <label for="descriptors">Descriptors:</label>
+            <input type="text" id="descriptors" th:field="*{descriptors}">
+        </div>
+        <button type="submit">Save Changes</button>
+    </form>
+</body>
+</html>
