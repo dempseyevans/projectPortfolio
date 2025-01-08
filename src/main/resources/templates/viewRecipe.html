@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Recipe</title>
+    <link rel="stylesheet" href="/css/viewRecipe.css">
+</head>
+<body>
+    <nav>
+        <a href="/ingredients">Ingredients</a>
+    </nav>
+    <div class="modal">
+        <div class="modal-content">
+            <div class="close-button">
+                <a href="/recipes">×</a>
+            </div>
+            <h1 th:text="${recipe.name}">Recipe Name</h1>
+            <div class="recipe-details">
+                <div class="form-group">
+                    <label for="cookTime">Cook Time:</label>
+                    <input type="text" id="cookTime" th:value="${recipe.cookTime}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="cost">Cost:</label>
+                    <input type="number" step="0.01" id="cost" th:value="${recipe.cost}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="instructions">Instructions:</label>
+                    <textarea id="instructions" readonly th:text="${recipe.instructions}"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="descriptors">Descriptors:</label>
+                    <input type="text" id="descriptors" th:value="${recipe.descriptors}" readonly class="small-text">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

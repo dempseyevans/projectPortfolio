@@ -18,6 +18,7 @@ import com.cookery.cookery.service.RecipeService;
 import com.cookery.cookery.service.UserService;
 
 
+
 @Controller
 @RequestMapping("/recipes")
 public class RecipeController {
@@ -50,6 +51,15 @@ public class RecipeController {
         model.addAttribute("recipe", recipe);
         return "editRecipe";
     }
+
+    //Show the recipe details
+    @GetMapping("/view/{id}")
+    public String viewRecipe(@PathVariable("id") Long id, Model model) {
+        Optional<Recipe> recipe = recipeService.findById(id);
+        model.addAttribute("recipe", recipe.get());
+        return "viewRecipe";
+    }
+    
 
     //CRUD METHODS BELOW
     @PostMapping
