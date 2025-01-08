@@ -1,5 +1,6 @@
 package com.cookery.cookery.Controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cookery.cookery.entity.Recipe;
 import com.cookery.cookery.service.RecipeService;
+import com.cookery.cookery.service.UserService;
 
 
 @Controller
@@ -22,6 +24,9 @@ public class RecipeController {
 
     @Autowired
     private RecipeService recipeService;
+
+    @Autowired
+    private UserService userService;
 
     //Display Recipes as a list
     @GetMapping
@@ -48,8 +53,10 @@ public class RecipeController {
 
     //CRUD METHODS BELOW
     @PostMapping
-    public String saveRecipe(@ModelAttribute Recipe recipe) {
-        recipeService.save(recipe);
+    public String saveRecipe(@ModelAttribute Recipe recipe, Principal principal) {
+        Long userId = userService.findByUsername(principal.getName()).getId(); //Use principal to get the active users ID
+        recipe.setUserID(userId); //Set the recipes userID to the current users ID
+        recipeService.save(recipe); //save the recipe
         return "redirect:/recipes";
     }
     

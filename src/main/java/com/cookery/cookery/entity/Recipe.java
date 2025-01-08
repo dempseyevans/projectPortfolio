@@ -1,5 +1,6 @@
 package com.cookery.cookery.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -16,7 +17,10 @@ public class Recipe {
 
     private Long userID;
     private String name;
+
+    @Column(name = "cook_time")
     private String cookTime;
+
     private String instructions;
     private Double cost;
     private String descriptors;
