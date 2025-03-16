@@ -33,7 +33,7 @@ public class SecurityConfig {
         logger.info("Configuring security settings");
         http
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers("/users/register", "/login", "/css/**").permitAll()
+                .requestMatchers("/users/register", "/login", "/css/**", "/error").permitAll()
                 .anyRequest().authenticated()
             )
             .formLogin(formLogin -> formLogin

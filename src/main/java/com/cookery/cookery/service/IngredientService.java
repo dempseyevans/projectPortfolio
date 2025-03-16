@@ -23,7 +23,11 @@ public class IngredientService {
             return ingredientRepository.findById(id);
         }
 
+    public List<Ingredient> findAllByUser(Long userId){
+        return ingredientRepository.findByUserId(userId);
+    }
 
+    
     //CRUD FUNCTIONALITY BELOW
     public Ingredient save(Ingredient ingredient){
         return ingredientRepository.save(ingredient);

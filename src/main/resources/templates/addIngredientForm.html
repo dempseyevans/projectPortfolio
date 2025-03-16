@@ -12,12 +12,12 @@
             <input type="text" th:field="*{name}" required />
         </div>
         <div>
-            <label>Price</label>
-            <input type="number" th:field="*{price}" step="0.01" required />
-        </div>
-        <div>
-            <label>Unit</label>
-            <input type="text" th:field="*{unit}" required />
+            <label>Price Category</label>
+            <select th:field="*{priceCategory}" required>
+                <option value="1">$</option>
+                <option value="2">$$</option>
+                <option value="3">$$$</option>
+            </select>
         </div>
         <div>
             <button type="submit">Save</button>

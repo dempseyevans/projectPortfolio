@@ -1,10 +1,16 @@
 package com.cookery.cookery.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -15,7 +21,10 @@ public class Recipe {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recipeID;
 
-    private Long userID;
+    @ManyToOne
+    @JoinColumn(name= "userID", nullable=false)
+    private User user;
+
     private String name;
 
     @Column(name = "cook_time")
@@ -25,6 +34,9 @@ public class Recipe {
     private Double cost;
     private String descriptors;
 
+    //Connect the RecipeIngredients to the Recipe as a list of recipe ingredients
+    @OneToMany
+    private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
     public Long getRecipeID() {
         return recipeID;
@@ -34,12 +46,12 @@ public class Recipe {
         this.recipeID = recipeID;
     }
 
-    public Long getUserID() {
-        return userID;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserID(Long userID) {
-        this.userID = userID;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getName() {
@@ -80,5 +92,23 @@ public class Recipe {
 
     public void setDescriptors(String descriptors) {
         this.descriptors = descriptors;
+    }
+
+    public void setUser(Long user) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+    }
+
+    //Adds the recipe ingredients from the model object to the recipes ingredient list
+    public void addRecipeIngredient(RecipeIngredient recipeIngredient) {
+        this.recipeIngredients.add(recipeIngredient); // Add the RecipeIngredient to the list
+        recipeIngredient.setRecipe(this); // Set the parent recipe in the RecipeIngredient
     }
 }

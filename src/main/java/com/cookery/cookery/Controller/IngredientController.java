@@ -1,5 +1,6 @@
 package com.cookery.cookery.Controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,13 +16,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.cookery.cookery.entity.Ingredient;
+import com.cookery.cookery.entity.User;
 import com.cookery.cookery.service.IngredientService;
+import com.cookery.cookery.service.UserService;
+
 
 @Controller
 @RequestMapping("/ingredients")
 public class IngredientController {
 
-private static final Logger logger = LoggerFactory.getLogger(IngredientController.class);
+    private static final Logger logger = LoggerFactory.getLogger(IngredientController.class);
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private IngredientService ingredientService;
@@ -48,10 +55,18 @@ private static final Logger logger = LoggerFactory.getLogger(IngredientControlle
 
     //CRUD METHODS BELOW
     @PostMapping
-    public String saveIngredient(@ModelAttribute Ingredient ingredient) {
-        ingredientService.save(ingredient);
-        return "redirect:/ingredients";
-    }
+public String saveIngredient(@ModelAttribute Ingredient ingredient, Principal principal) {
+    // Retrieve the logged-in user
+    User user = userService.findByUsername(principal.getName());
+    
+    // Associate the ingredient with the user
+    ingredient.setUser(user);
+    
+    // Save the ingredient
+    ingredientService.save(ingredient);
+    
+    return "redirect:/ingredients";
+}
 
     @GetMapping("/edit/{id}")
     public String editIngredientForm(@PathVariable Long id, Model model) {
@@ -71,5 +86,19 @@ private static final Logger logger = LoggerFactory.getLogger(IngredientControlle
         ingredientService.deleteById(id);
         return "redirect:/ingredients";
     }
+
+    //Handle adding new ingredients on the recipe form
+    @PostMapping("/add")
+    public String addIngredient(@ModelAttribute Ingredient newIngredient, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        newIngredient.setUser(user); // Associate the ingredient with the logged-in user
+
+        // Save the ingredient
+        ingredientService.save(newIngredient);
+
+        // Redirect back to the recipe creation form
+        return "redirect:/recipes/new";
+    }
+    
 }
 

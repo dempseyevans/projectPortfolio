@@ -9,16 +9,21 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Price</th>
-                <th>Unit</th>
-                <th>Actions</th>
+                <th>Price Category</th>
+                <th>Modify</th>
             </tr>
         </thead>
         <tbody>
             <tr th:each="ingredient : ${ingredients}">
                 <td th:text="${ingredient.name}"></td>
-                <td th:text="${ingredient.price}"></td>
-                <td th:text="${ingredient.unit}"></td>
+                <!--Display price category as $-->
+                <td>
+                    <span th:switch="${ingredient.priceCategory}">
+                        <span th:case="1">$</span>
+                        <span th:case="2">$$</span>
+                        <span th:case="3">$$$</span>
+                    </span>
+                </td>
                 <td>
                     <a th:href="@{/ingredients/edit/{id}(id=${ingredient.id})}">Edit</a>
                     <a th:href="@{/ingredients/delete/{id}(id=${ingredient.id})}">Delete</a>
@@ -26,6 +31,6 @@
             </tr>
         </tbody>
     </table>
-    <a th:href="@{/addIngredientForm}">Add New Ingredient</a>
+    <a th:href="@{/ingredients/new}">Add New Ingredient</a>
 </body>
 </html>

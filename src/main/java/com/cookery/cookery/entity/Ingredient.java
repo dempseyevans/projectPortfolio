@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -16,14 +18,15 @@ public class Ingredient {
     @Column(name="ingredientID")
     private long id;
 
+    @ManyToOne
+    @JoinColumn(name ="userID", nullable=false)
+    private User user;
+
     @Column(name = "name")
     private String name;
 
     @Column(name = "price")
-    private Double price;
-
-    @Column(name = "unit")
-    private String unit;
+    private Integer priceCategory;
 
     public Ingredient() {
     }
@@ -36,21 +39,27 @@ public class Ingredient {
         this.name = name;
     }
 
-    public Double getPrice() {
-        return price;
+    public Integer getPriceCategory() {
+        return priceCategory;
     }
 
-    public void setPrice(Double price) {
-        this.price = price;
+    public void setPriceCategory(Integer priceCategory) {
+        this.priceCategory = priceCategory;
     }
 
-    public String getUnit() {
-        return unit;
+    public long getId() {
+        return id;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
+    public void setId(long id) {
+        this.id = id;
     }
 
-    
+    public User getUser(){
+        return user;
+    }
+
+    public void setUser(User user){
+        this.user = user;
+    }
 }

@@ -23,7 +23,11 @@
                 </div>
                 <div class="form-group">
                     <label for="cost">Cost:</label>
-                    <input type="number" step="0.01" id="cost" th:value="${recipe.cost}" readonly>
+                    <span th:switch="${recipe.cost}">
+                        <span th:case="1.0">$</span>
+                        <span th:case="2.0">$$</span>
+                        <span th:case="3.0">$$$</span>
+                    </span>
                 </div>
                 <div class="form-group">
                     <label for="instructions">Instructions:</label>
