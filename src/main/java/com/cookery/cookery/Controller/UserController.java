@@ -50,6 +50,7 @@ public class UserController {
             }
             else{
                 logger.info("User successfully registered");
+                user.setRole("USER");
                 userService.saveUser(user);
                 return "redirect:/login";}
             }

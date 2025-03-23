@@ -41,6 +41,10 @@ public class User {
     @OneToMany(mappedBy="user", cascade= CascadeType.ALL, orphanRemoval=true)
     private List<Ingredient> ingredients;
 
+    //User Roles Implementation
+    @Column(nullable=false)
+    private String role;
+
     public User() {
     }
 
@@ -92,5 +96,14 @@ public class User {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
 
 }

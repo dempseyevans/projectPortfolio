@@ -30,6 +30,7 @@ public class UserService {
     public User saveUser(User user)
     {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole("USER");
         return userRepository.save(user);
     }
 
