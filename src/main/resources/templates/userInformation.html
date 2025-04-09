@@ -2,21 +2,57 @@
 <html xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <title>User Information Page</title>
+    <link rel="stylesheet" href="/css/userInfo.css">
 </head>
 <body>
+    <nav>
+        <a href="/generator">Recipe Generator</a>
+        <a href="/recipes">Recipes</a>
+        <a href="/ingredients">Ingredients
+    </nav>
     <h1>User Information</h1>
-    <form>
-        <label for="username">Username:</label>
-        <input type="text" id="username" th:value="${user.username}" readonly><br>
 
-        <label for="firstName">First Name:</label>
-        <input type="text" id="firstName" th:value="${user.firstName}" readonly><br>
+    <!--User Information Form-->
+    <section class="user-info">
+        <form>
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" th:value="${user.username}" readonly>
+            </div>
 
-        <label for="lastName">Last Name:</label>
-        <input type="text" id="lastName" th:value="${user.lastName}" readonly><br>
+            <div class="form-group">
+                <label for="firstName">First Name:</label>
+                <input type="text" id="firstName" th:value="${user.firstName}" readonly>
+            </div>
 
-        <label for="email">Email:</label>
-        <input type="email" id="email" th:value="${user.email}" readonly><br>
-    </form>
+            <div class="form-group">
+                <label for="lastName">Last Name:</label>
+                <input type="text" id="lastName" th:value="${user.lastName}" readonly>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" th:value="${user.email}" readonly>
+            </div>
+        </form>
+    </section>
+
+    <!-- Feedback Form -->
+    <section class="feedback">
+        <h2>Submit Feedback</h2>
+        <form th:action="@{/users/submitFeedback}" method="post">
+            <div class="form-group">
+                <label for="feedback">Your Feedback:</label>
+                <textarea id="feedback" name="feedback" rows="5" cols="50" placeholder="Enter your feedback here" required></textarea>
+            </div>
+
+            <button type="submit" class="submit-button">Submit Feedback</button>
+        </form>
+
+        <!-- Successful submission message -->
+        <div th:if="${successMessage}" class="success-message">
+            <p th:text="${successMessage}"></p>
+        </div>
+    </section>
 </body>
 </html>

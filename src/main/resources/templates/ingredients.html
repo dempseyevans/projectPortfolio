@@ -2,10 +2,16 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Ingredients</title>
+    <link rel="stylesheet" href="/css/recipeHome.css">
 </head>
 <body>
+    <nav>
+        <a href="/generator">Recipe Generator</a>
+        <a href="/recipes">Recipes</a>
+        <a href="/users/userInfo">User</a>
+    </nav>
     <h1>Ingredients</h1>
-    <table border="1">
+    <table>
         <thead>
             <tr>
                 <th>Name</th>
@@ -19,9 +25,9 @@
                 <!--Display price category as $-->
                 <td>
                     <span th:switch="${ingredient.priceCategory}">
-                        <span th:case="1">$</span>
-                        <span th:case="2">$$</span>
-                        <span th:case="3">$$$</span>
+                        <span th:case="1.0">$</span>
+                        <span th:case="2.0">$$</span>
+                        <span th:case="3.0">$$$</span>
                     </span>
                 </td>
                 <td>
@@ -31,6 +37,6 @@
             </tr>
         </tbody>
     </table>
-    <a th:href="@{/ingredients/new}">Add New Ingredient</a>
+    <a class="button-add" th:href="@{/ingredients/new}">Add New Ingredient</a>
 </body>
 </html>

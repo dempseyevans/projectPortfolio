@@ -1,5 +1,7 @@
 package com.cookery.cookery.Controller;
 
+import java.security.Principal;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,20 +14,29 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cookery.cookery.entity.User;
+import com.cookery.cookery.service.FeedbackService;
 import com.cookery.cookery.service.UserService;
-
 
 
 @Controller
 @RequestMapping("/users")
 public class UserController {
 
+    private final FeedbackService feedbackService;
+
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
+
+
+    UserController(FeedbackService feedbackService) {
+        this.feedbackService = feedbackService;
+    }
+
 
     //Display Registration form
     @GetMapping("/register")
@@ -78,6 +89,23 @@ public class UserController {
 
         return "userInformation";
     }
+
+    //User Feedback Form
+    @PostMapping("/submitFeedback")
+    public String submitFeedback(@RequestParam("feedback") String feedbackText, Principal principal, Model model) {
+        //Get ID of user
+        User user = userService.findByUsername(principal.getName());
+
+        //Save user feedback
+        feedbackService.saveFeedback(feedbackText, user);
+
+        //Feedback success message
+        model.addAttribute("successMessage", "Feedback successfully submitted.");
+        model.addAttribute("user", user);
+        
+        return "userInformation";
+    }
+    
     
 
     /**FIND USER FOR TESTING**/

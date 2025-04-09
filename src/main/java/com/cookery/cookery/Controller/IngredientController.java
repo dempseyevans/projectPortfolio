@@ -71,7 +71,10 @@ public String saveIngredient(@ModelAttribute Ingredient ingredient, Principal pr
     @GetMapping("/edit/{id}")
     public String editIngredientForm(@PathVariable Long id, Model model) {
         Optional<Ingredient> ingredient = ingredientService.findById(id);
+        if(ingredient.isPresent()){
         model.addAttribute("ingredient", ingredient.get());
+        return "editIngredientForm";
+        }
         return "redirect:/ingredients";
     }
 

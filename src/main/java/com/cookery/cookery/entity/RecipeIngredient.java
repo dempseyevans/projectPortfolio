@@ -13,6 +13,15 @@ import jakarta.persistence.Table;
 @Table(name = "recipeingredient")
 public class RecipeIngredient {
 
+    public RecipeIngredient(Recipe recipe, Ingredient ingredient, String quantity) {
+        this.recipe = recipe;
+        this.ingredient = ingredient;
+        this.quantity = quantity;
+    }
+
+    public RecipeIngredient() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="recipeIngredientID")

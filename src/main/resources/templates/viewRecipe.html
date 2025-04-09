@@ -29,6 +29,16 @@
                         <span th:case="3.0">$$$</span>
                     </span>
                 </div>
+
+                <div class="form-group">
+                    <label for="ingredients">Ingredients:</label>
+                    <ul>
+                        <li th:each="ingredient : ${recipe.recipeIngredients}">
+                            <span th:text="${ingredient.quantity}"></span> of <span th:text="${ingredient.ingredient.name}"></span>
+                        </li>
+                    </ul>
+                </div>
+
                 <div class="form-group">
                     <label for="instructions">Instructions:</label>
                     <textarea id="instructions" readonly th:text="${recipe.instructions}"></textarea>

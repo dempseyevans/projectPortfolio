@@ -1,31 +1,26 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Ingredient Form</title>
+    <title>Edit Ingredient</title>
     <link rel="stylesheet" href="/css/newIngredientForm.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
     <nav>
-        <a href="/generator">Recipe Generator</a>
+        <a href="/recipeGenerator">Recipe Generator</a>
         <a href="/recipes">Recipes</a>
         <a href="/users/info">User Info</a>
         <a href="/logout">Logout</a>
     </nav>
 
-    <h1>Add New Ingredient</h1>
+    <h1>Edit Ingredient</h1>
 
-    <!-- Form Section -->
     <section class="form-container">
         <form th:action="@{/ingredients}" th:object="${ingredient}" method="post">
-            <!-- Hidden field for ID -->
-            <input type="hidden" th:if="${ingredient.id != null}" th:field="*{id}" />
-
+            <input type="hidden" th:field="*{id}" />
             <div class="form-group">
                 <label for="name">Name</label>
                 <input type="text" id="name" th:field="*{name}" required />
             </div>
-
             <div class="form-group">
                 <label for="priceCategory">Price Category</label>
                 <select id="priceCategory" th:field="*{priceCategory}" required>
@@ -34,11 +29,7 @@
                     <option value="3">$$$</option>
                 </select>
             </div>
-
-            <div class="form-group form-actions">
-                <button type="submit" class="submit-button">Save</button>
-                <a class="back-link" th:href="@{/ingredients}">Back to Ingredients List</a>
-            </div>
+            <button type="submit" class="submit-button">Save Changes</button>
         </form>
     </section>
 </body>

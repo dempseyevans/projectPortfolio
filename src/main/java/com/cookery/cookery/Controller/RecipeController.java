@@ -3,7 +3,6 @@ package com.cookery.cookery.Controller;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,19 +14,20 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cookery.cookery.CookeryApplication;
 import com.cookery.cookery.entity.Ingredient;
 import com.cookery.cookery.entity.Recipe;
 import com.cookery.cookery.entity.RecipeIngredient;
-import com.cookery.cookery.entity.User;
 import com.cookery.cookery.service.IngredientService;
 import com.cookery.cookery.service.RecipeService;
 import com.cookery.cookery.service.UserService;
 
 
-
 @Controller
 @RequestMapping("/recipes")
 public class RecipeController {
+
+    private final CookeryApplication cookeryApplication;
 
     @Autowired
     private RecipeService recipeService;
@@ -37,6 +37,10 @@ public class RecipeController {
 
     @Autowired
     private IngredientService ingredientService;
+
+    RecipeController(CookeryApplication cookeryApplication) {
+        this.cookeryApplication = cookeryApplication;
+    }
 
     //Display Recipes as a list
     @GetMapping
@@ -53,6 +57,11 @@ public class RecipeController {
     @GetMapping("/new")
     public String showAddRecipeForm(Model model) {
         model.addAttribute("recipe", new Recipe());
+        
+        //Debugging
+        List<Ingredient> ingredients = ingredientService.findAll();
+        ingredients.forEach(ingredient -> System.out.println("ID: " + ingredient.getId() + "Name: " + ingredient.getName()));
+
         model.addAttribute("ingredients", ingredientService.findAll());
         
         // Initialize/retrieve selectedIngredients for user session
@@ -146,38 +155,35 @@ public class RecipeController {
     //CRUD METHODS BELOW
     // Save a new recipe and associate it with the logged-in user
     @PostMapping
-    public String saveRecipe(@ModelAttribute Recipe recipe, @RequestParam Map<String, String> ingredientQuantities, // Ingredient ID → Quantity
+    public String saveRecipe(@ModelAttribute Recipe recipe, @RequestParam List<Long> ingredientIds,@RequestParam List<String> quantities,
     Principal principal) {
+
+
     // Get the logged-in user and associate them with the recipe
-    User user = userService.findByUsername(principal.getName());
-    recipe.setUser(user);
+    recipe.setUser(userService.findByUsername(principal.getName()));
 
-    // Process ingredients and their quantities
-    ingredientQuantities.forEach((key, quantity) -> {
-        
-        //Save only ingredients with valid quantities and manage the csrf error caused by quantity use in mapping
-        if(key.matches("\\d+") && quantity != null && !quantity.equalsIgnoreCase("0") && !quantity.trim().isEmpty()){
-        
-        //Convert http string Id data it's Long stored type
-        Long ingredientId = Long.valueOf(key);
+    // Process ingredients and their corresponding quantities
+    for (int i = 0; i < ingredientIds.size(); i++) {
+        Long ingredientId = ingredientIds.get(i);
+        String quantity = quantities.get(i);
 
-        // Fetch the Ingredient entity
-        Ingredient ingredient = ingredientService.findById(ingredientId)
-            .orElseThrow(() -> new RuntimeException("Ingredient not found"));
+        // Validate quantity
+        if (quantity != null && !quantity.trim().isEmpty() && !quantity.equalsIgnoreCase("0")) {
+            // Fetch the Ingredient entity
+            Ingredient ingredient = ingredientService.findById(ingredientId)
+                .orElseThrow(() -> new RuntimeException("Ingredient not found: " + ingredientId));
 
-        // Create a RecipeIngredient
-        RecipeIngredient recipeIngredient = new RecipeIngredient();
-        recipeIngredient.setRecipe(recipe);
-        recipeIngredient.setIngredient(ingredient);
-        recipeIngredient.setQuantity(quantity);
+            // Create and add RecipeIngredient
+            recipe.addRecipeIngredient(new RecipeIngredient(recipe, ingredient, quantity));
 
-        // Add RecipeIngredient to the Recipe's list of ingredients
-        recipe.addRecipeIngredient(recipeIngredient);
+            // Debugging
+            System.out.println("Added RecipeIngredient: Ingredient ID = " + ingredientId + ", Quantity = " + quantity);
         }
-    });
+    }
 
     // Save the recipe, including its associated ingredients
     recipeService.save(recipe);
+
 
     return "redirect:/recipes"; // Redirect to the list of recipes
 }

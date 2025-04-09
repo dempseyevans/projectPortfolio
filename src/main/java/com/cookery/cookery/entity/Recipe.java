@@ -3,6 +3,7 @@ package com.cookery.cookery.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -31,11 +32,13 @@ public class Recipe {
     private String cookTime;
 
     private String instructions;
+
+    @Column(nullable=true)
     private Double cost;
     private String descriptors;
 
     //Connect the RecipeIngredients to the Recipe as a list of recipe ingredients
-    @OneToMany
+    @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
 
     public Long getRecipeID() {
@@ -108,6 +111,9 @@ public class Recipe {
 
     //Adds the recipe ingredients from the model object to the recipes ingredient list
     public void addRecipeIngredient(RecipeIngredient recipeIngredient) {
+        if (recipeIngredients == null){
+            recipeIngredients = new ArrayList<>();
+        }
         this.recipeIngredients.add(recipeIngredient); // Add the RecipeIngredient to the list
         recipeIngredient.setRecipe(this); // Set the parent recipe in the RecipeIngredient
     }
