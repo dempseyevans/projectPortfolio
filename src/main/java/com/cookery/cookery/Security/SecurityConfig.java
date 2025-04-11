@@ -33,7 +33,7 @@ public class SecurityConfig {
         logger.info("Configuring security settings");
         http
             .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                .requestMatchers("/users/register", "/login", "/css/**", "/error").permitAll()
+                .requestMatchers("/users/register", "/login", "/css/**", "/error", "/users/resetPassword", "/users/changePassword", "/users/savePassword").permitAll()
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().hasRole("USER")
             )
@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .permitAll()
             )
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/users/register", "/login")
+                .ignoringRequestMatchers("/users/register", "/login", "/users/resetPassword", "/users/changePassword", "/users/savePassword")
             );
         return http.build();
     }
