@@ -117,3 +117,14 @@ button.submit-button {
 button.submit-button:hover {
     background-color: #246B47;
 }
+
+.back-link {
+    margin-left: 1rem;
+    color: #2E8B57;
+    text-decoration: none;
+    font-size: 1rem;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}

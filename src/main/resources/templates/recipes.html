@@ -13,6 +13,14 @@
         <a href="/users/userInfo">User</a>
     </nav>
     <h1>Recipes</h1>
+
+    <!-- Search Bar -->
+    <form th:action="@{/recipes/search}" method="get" class="search-form">
+        <input type="text" name="query" placeholder="Search recipes..." required />
+        <button type="submit" class="submit-button">Search</button>
+        <button type="button" class="refresh-button" onclick="window.location.href='/recipes'">Refresh</button>
+    </form>
+
     <table>
         <thead>
             <tr>

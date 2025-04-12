@@ -28,6 +28,7 @@ public class IngredientService {
     }
 
     
+    
     //CRUD FUNCTIONALITY BELOW
     public Ingredient save(Ingredient ingredient){
         return ingredientRepository.save(ingredient);

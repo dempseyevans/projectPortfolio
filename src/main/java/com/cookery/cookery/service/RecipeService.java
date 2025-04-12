@@ -1,5 +1,6 @@
 package com.cookery.cookery.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +28,9 @@ public class RecipeService {
     private IngredientRepository ingredientRepository;
 
     @Autowired
+    private IngredientService ingredientService;
+
+    @Autowired
     private RecipeIngredientService recipeIngredientService;
 
     RecipeService(CookeryApplication cookeryApplication, CustomUserDetailsService customUserDetailsService) {
@@ -34,18 +38,22 @@ public class RecipeService {
         this.customUserDetailsService = customUserDetailsService;
     }
 
+    //Find all existing recipes
     public List<Recipe> findAll(){
         return recipeRepository.findAll();
     }
 
+    //Find recipes by ID
     public Optional<Recipe> findById(Long id){
         return recipeRepository.findById(id);
     }
 
+    //Find recipe by User
     public List<Recipe> findAllByUser(Long userId){
         return recipeRepository.findByUserId(userId);
     }
 
+    //Save ingredients from recipe form
     //Associates the created list of ingredients in the recipe form the individual recipe upon being saved
     public void saveRecipeWithIngredients(Recipe recipe, List<Long> ingredientIds){
         Recipe savedRecipe = recipeRepository.save(recipe);
@@ -81,6 +89,76 @@ public class RecipeService {
         else {
             recipe.setCost(3.0);}
     }
+    
+    //Get Ingredients with Quantities
+    public List<Ingredient> findAvailableIngredients(Recipe recipe) {
+        List<Ingredient> allIngredients = ingredientService.findAll();
+        List<RecipeIngredient> recipeIngredients = recipe.getRecipeIngredients();
+        List<Ingredient> available = new ArrayList<>();
+        
+        for (Ingredient ingredient : allIngredients) {
+            boolean found = false;
+            for (RecipeIngredient ri : recipeIngredients) {
+                if (ri.getIngredient().getId() == ingredient.getId()) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) {
+                available.add(ingredient);
+            }
+        }
+        return available;
+    }
+
+    //Search for recipes
+    public List<Recipe> searchRecipe(String query, String username){
+
+        List<Recipe> filteredRecipes = new ArrayList<>();
+        // Retrieve recipes belonging to the logged-in user
+        List<Recipe> allRecipes = recipeRepository.findByUserUsername(username);
+        String lowerCaseQuery = query.toLowerCase();
+        
+        // Loop through each recipe
+        for (Recipe recipe : allRecipes) {
+            boolean matchFound = false;
+            
+            // Check the recipe's name
+            if (recipe.getName() != null && recipe.getName().toLowerCase().contains(lowerCaseQuery)) {
+                matchFound = true;
+            }
+            // Check the descriptors
+            else if (recipe.getDescriptors() != null && recipe.getDescriptors().toLowerCase().contains(lowerCaseQuery)) {
+                matchFound = true;
+            }
+            // Check the instructions
+            else if (recipe.getInstructions() != null && recipe.getInstructions().toLowerCase().contains(lowerCaseQuery)) {
+                matchFound = true;
+            }
+            // Check the cost, converting it to a string
+            else if (String.valueOf(recipe.getCost()).contains(lowerCaseQuery)) {
+                matchFound = true;
+            }
+            // Check if any of the associated ingredients match
+            else if (recipe.getRecipeIngredients() != null) {
+                for (RecipeIngredient ri : recipe.getRecipeIngredients()) {
+                    if (ri.getIngredient() != null && ri.getIngredient().getName() != null) {
+                        if (ri.getIngredient().getName().toLowerCase().contains(lowerCaseQuery)) {
+                            matchFound = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            
+            // If any field matched, add the recipe to the results list
+            if (matchFound) {
+                filteredRecipes.add(recipe);
+            }
+        }
+        
+        return filteredRecipes;
+    }
 
     //CRUD FUNCTIONALITY BELOW
     public void save(Recipe recipe){
@@ -91,4 +169,5 @@ public class RecipeService {
     public void deleteById(Long id){
         recipeRepository.deleteById(id);
     }
+
 }
