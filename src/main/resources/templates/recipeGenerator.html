@@ -1,52 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Recipe Generator</title>
+        <link rel="stylesheet" href="/css/recipeGenerator.css">
     </head>
     <body>
-        <h1> Generate a Random Recipe * Filters Optional</h1>
-        <!--Filter Form-->
-        <form th:action="@{/generator}" method="get">
-            <label for="costRange">Cost Range:</label>
-            <select id="costRange" name="costRange">
-                <option value="">None</option>
-                <option value="1.0">$</option>
-                <option value="2.0">$$</option>
-                <option value="3.0">$$$</option>
-            </select><br>
+        <nav>
+            <a href="/recipes">Recipes</a>
+            <a href="/ingredients">Ingredients</a>
+            <a href="/users/userInfo">User</a>
+            <a href="/logout">Logout</a>
+        </nav>
+        <div class ="generator-container">
+            <h1> Generate a Random Recipe * Filters Optional</h1>
+            <!--Filter Form-->
+            <form th:action="@{/generator}" method="get">
+                <label for="costRange">Cost Range:</label>
+                <select id="costRange" name="costRange">
+                    <option value="">None</option>
+                    <option value="1.0">$</option>
+                    <option value="2.0">$$</option>
+                    <option value="3.0">$$$</option>
+                </select><br>
 
-            <label for="descriptor">Descriptor:</label>
-            <input type="text" id="descriptor" name="descriptor" placeholder="e.g., lunch, fall, spicy"><br>
+                <label for="descriptor">Descriptor:</label>
+                <input type="text" id="descriptor" name="descriptor" placeholder="e.g., lunch, fall, spicy"><br>
 
-            <label for="maxCookTime">Max Cook Time (minutes):</label>
-            <input type="number" id="maxCookTime" name="maxCookTime" min="1"><br>
+                <label for="maxCookTime">Max Cook Time (minutes):</label>
+                <input type="number" id="maxCookTime" name="maxCookTime" min="1"><br>
 
-            <button type="submit">Generate Recipe</button>
-        </form>
+                <button type="submit">Generate Recipe</button>
+            </form>
 
-        <!--Error message for no found recipes-->
-        <div th:if="${errorMessage}">
-            <p style="color: blue;" th:text="${errorMessage}"></p>
+            <!--Error message for no found recipes-->
+            <div th:if="${errorMessage}">
+                <p th:text="${errorMessage}"></p>
+            </div>
+
+            <!--Display the generated recipe-->
+            <div th:if="${recipe}" class="recipe-result">
+                <h2>Recipe Result</h2>
+                <p><strong>Name:</strong> <span th:text="${recipe.name}"></span></p>
+                <p><strong>Descriptors:</strong> <span th:text="${recipe.descriptors}"></span></p>
+                <p><strong>Cost Range:</strong> <span th:text="${recipe.cost}"></span></p>
+                <p><strong>Cook Time:</strong> <span th:text="${recipe.cookTime}"></span> minutes</p>
+                
+                <h3>Ingredients</h3>
+                <ul>
+                    <li th:each="ingredient : ${recipe.recipeIngredients}">
+                        <span th:text="${ingredient.quantity}"></span> of <span th:text="${ingredient.ingredient.name}"></span>
+                    </li>
+                </ul>
+                
+                <h3>instructions</h3>
+                <p><span th:text="${recipe.instructions}"></span></p>
+            </div>
         </div>
-
-        <!--Display the generated recipe-->
-        <div th:if="${recipe}">
-            <h2>Recipe Result</h2>
-            <p><strong>Name:</strong> <span th:text="${recipe.name}"></span></p>
-            <p><strong>Descriptors:</strong> <span th:text="${recipe.descriptors}"></span></p>
-            <p><strong>Cost Range:</strong> <span th:text="${recipe.cost}"></span></p>
-            <p><strong>Cook Time:</strong> <span th:text="${recipe.cookTime}"></span> minutes</p>
-            
-            <h3>Ingredients</h3>
-            <ul>
-                <li th:each="ingredient : ${recipe.recipeIngredients}">
-                    <span th:text="${ingredient.quantity}"></span> of <span th:text="${ingredient.ingredient.name}"></span>
-                </li>
-            </ul>
-            
-            <h3>instructions</h3>
-            <p><span th:text="${recipe.instructions}"></span></p>
-        </div>
-
     </body>
 </html>

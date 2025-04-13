@@ -36,9 +36,10 @@ public class IngredientController {
     //Display Ingredients as a list
     //Exception handling for debugging service error 500
     @GetMapping
-    public String listIngredients(Model model) {
+    public String listIngredients(Model model, Principal principal) {
         try{
-            List<Ingredient> ingredients = ingredientService.findAll();
+            User currentUser = userService.findByUsername(principal.getName());
+            List<Ingredient> ingredients = ingredientService.findAllByUser(currentUser.getId());
         model.addAttribute("ingredients", ingredients);
         } catch (Exception e){
             logger.error("Error displaying ingredient: " + e.getMessage());

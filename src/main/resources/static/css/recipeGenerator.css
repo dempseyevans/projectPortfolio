@@ -1,0 +1,90 @@
+/* Navbar */
+nav {
+    background-color: #2E8B57; /* Dark Green */
+    padding: 1rem;
+    display: flex;
+    justify-content: flex-end; /* Align links to the right */
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin-left: 1rem;
+    font-size: 1rem;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Container for the generator */
+.generator-container {
+    width: 60%;
+    margin: 2rem auto;
+    background-color: white;
+    padding: 2rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+.generator-container h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #2E8B57; /* Dark Green */
+}
+  /* Style the filter form */
+.generator-form {
+    margin: 1rem 0;
+    text-align: left;
+}
+.generator-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #333;
+}
+.generator-form input[type="text"],
+.generator-form input[type="number"],
+.generator-form select {
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+}
+.generator-form button {
+    background-color: #2E8B57;
+    color: white;
+    padding: 0.7rem 1.25rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: block;
+    margin: 0.5rem auto;
+}
+.generator-form button:hover {
+    background-color: #246B47;
+}
+
+/* Style the recipe result section */
+.recipe-result {
+    margin-top: 2rem;
+    text-align: left;
+}
+.recipe-result h2,
+.recipe-result h3 {
+    color: #2E8B57;
+    margin-bottom: 0.5rem;
+}
+recipe-result p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+.recipe-result ul {
+    list-style-type: disc;
+    margin-left: 2rem;
+}

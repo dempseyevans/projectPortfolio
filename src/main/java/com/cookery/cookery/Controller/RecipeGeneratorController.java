@@ -1,5 +1,6 @@
 package com.cookery.cookery.Controller;
 
+import java.security.Principal;
 import java.util.NoSuchElementException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,16 +23,18 @@ public class RecipeGeneratorController {
     
     //Show the Recipe Generator Page
     @GetMapping
-    public String recipeGeneratorForm(@RequestParam(value = "costRange", required=false) Double costRange, @RequestParam(value = "descriptor", required= false) String descriptor, @RequestParam(value="maxCookTime", required=false) Integer maxCookTime, Model model) {
+    public String recipeGeneratorForm(@RequestParam(value = "costRange", required=false) Double costRange, @RequestParam(value = "descriptor", required= false) String descriptor, @RequestParam(value="maxCookTime", required=false) Integer maxCookTime, Model model, Principal principal) {
     
         // Check if this is an initial page load
         if (costRange == null && descriptor == null && maxCookTime == null) {
             return "recipeGenerator"; // Return the page without generating a recipe
         }
 
+        String username = principal.getName();
+
         try{
             //Generate random recipe using filters
-            Recipe recipe = recipeGeneratorService.generateRandomRecipe(costRange, descriptor, maxCookTime);
+            Recipe recipe = recipeGeneratorService.generateRandomRecipe(costRange, descriptor, maxCookTime, username);
     
             //Add the recipe to the model after submitting
             model.addAttribute("recipe", recipe);

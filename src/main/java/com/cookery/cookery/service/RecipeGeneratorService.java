@@ -9,20 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cookery.cookery.entity.Recipe;
-import com.cookery.cookery.repository.RecipeGeneratorRepository;
+import com.cookery.cookery.repository.RecipeRepository;
 
 @Service
 public class RecipeGeneratorService {
 
 
+
     @Autowired
-    private RecipeGeneratorRepository recipeGeneratorRepository;
+    private RecipeRepository recipeRepository;
 
 
-    public Recipe generateRandomRecipe(Double costRange, String descriptor, Integer maxCookTime) {
+    public Recipe generateRandomRecipe(Double costRange, String descriptor, Integer maxCookTime, String username) {
 
         //List of all existing recipes
-        List<Recipe> allRecipes = recipeGeneratorRepository.findAll();
+        List<Recipe> allRecipes = recipeRepository.findByUserUsername(username);
 
         //List for filtered recipes
         List<Recipe> filteredRecipes = new ArrayList<>();

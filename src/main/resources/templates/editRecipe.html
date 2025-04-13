@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="/css/addRecipe.css" />
   </head>
   <body>
+    <nav>
+      <a href="/recipeGenerator">Recipe Generator</a>
+      <a href="/ingredients">Ingredients</a>
+      <a href="/users/info">User Info</a>
+      <a href="/logout">Logout</a>
+  </nav>
     <h1>Edit Recipe</h1>
     <div class="container">
       <form th:action="@{/recipes/edit/{id}(id=${recipe.recipeID})}" method="post" th:object="${recipe}">
