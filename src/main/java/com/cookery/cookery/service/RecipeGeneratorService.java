@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cookery.cookery.entity.Recipe;
+import com.cookery.cookery.entity.RecipeIngredient;
 import com.cookery.cookery.repository.RecipeRepository;
 
 @Service
@@ -20,13 +21,33 @@ public class RecipeGeneratorService {
     private RecipeRepository recipeRepository;
 
 
-    public Recipe generateRandomRecipe(Double costRange, String descriptor, Integer maxCookTime, String username) {
+    public Recipe generateRandomRecipe(String descriptorInput, String ingredientInput, Double costRange, Integer maxCookTime, String username) {
 
         //List of all existing recipes
         List<Recipe> allRecipes = recipeRepository.findByUserUsername(username);
 
         //List for filtered recipes
         List<Recipe> filteredRecipes = new ArrayList<>();
+
+        //User input list
+        //Separates the user input using the inputted commas and creates a list
+        List<String> descriptorToken = new ArrayList<>();
+        if(descriptorInput != null && descriptorInput.trim().isEmpty()){
+            for(String token : descriptorInput.split(",")){
+                if(!token.trim().isEmpty()) {
+                    descriptorToken.add(token.trim().toLowerCase());
+                }
+            }
+        }
+
+        List<String> ingredientToken = new ArrayList<>();
+        if(ingredientInput != null && ingredientInput.trim().isEmpty()){
+            for(String token : ingredientInput.split(",")){
+                if(!token.trim().isEmpty()){
+                    ingredientToken.add(token.trim().toLowerCase());
+                }
+            }
+        }
 
         for(Recipe recipe : allRecipes) {
             boolean matches = true;
@@ -39,9 +60,40 @@ public class RecipeGeneratorService {
                 }
             }
 
-            //Descriptor filter
-            if(descriptor != null && !descriptor.isEmpty()){
-                if(!recipe.getDescriptors().toLowerCase().contains(descriptor.toLowerCase())){
+            // Descriptors filter.
+            if (!descriptorToken.isEmpty()) {
+                String recipeDescriptors = (recipe.getDescriptors() != null) ? recipe.getDescriptors().toLowerCase() : "";
+                boolean found = false;
+                for (String token : descriptorToken) {
+                    if (recipeDescriptors.contains(token)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    matches = false;
+                }
+            }
+
+            // Ingredient filter.
+            if (!ingredientToken.isEmpty()) {
+                boolean found = false;
+                if (recipe.getRecipeIngredients() != null) {
+                    for (RecipeIngredient ri : recipe.getRecipeIngredients()) {
+                        String ingName = (ri.getIngredient() != null && ri.getIngredient().getName() != null)
+                                            ? ri.getIngredient().getName().toLowerCase() : "";
+                        for (String token : ingredientToken) {
+                            if (ingName.contains(token)) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (found) {
+                            break;
+                        }
+                    }
+                }
+                if (!found) {
                     matches = false;
                 }
             }

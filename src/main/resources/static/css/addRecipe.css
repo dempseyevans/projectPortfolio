@@ -128,3 +128,36 @@ button.submit-button:hover {
 .back-link:hover {
     text-decoration: underline;
 }
+.modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.modal-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-content h3 {
+    margin-top: 0;
+}
+
+.modal-content label {
+    margin-bottom: 5px;
+}
+
+.modal-content input {
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+button {
+    margin-top: 10px;
+}

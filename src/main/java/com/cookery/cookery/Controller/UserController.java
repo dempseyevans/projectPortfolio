@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cookery.cookery.dto.PasswordDto;
 import com.cookery.cookery.entity.GenericResponse;
@@ -72,7 +73,7 @@ public class UserController {
     //Try-catch handling for debugging save actions
     //If-else statement verifies email validity
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute User user)
+    public String registerUser(@ModelAttribute("user") User user, RedirectAttributes redirectAttributes)
     {
         try{
             User existingUser = userService.findByEmail(user.getEmail());
@@ -85,6 +86,7 @@ public class UserController {
                 logger.info("User successfully registered");
                 user.setRole("USER");
                 userService.saveUser(user);
+                redirectAttributes.addFlashAttribute("successMessage", "You're all set! Log in and visit your user Information page for help getting started!");
                 return "redirect:/login";}
             }
         catch (Exception e)

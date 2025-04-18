@@ -46,7 +46,7 @@ public class SecurityConfig {
                 .permitAll()
             )
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers("/users/register", "/login", "/users/resetPassword", "/users/changePassword", "/users/savePassword")
+                .ignoringRequestMatchers("/users/register", "/login", "/users/resetPassword", "/users/changePassword", "/users/savePassword", "/recipes/addIngredient")
             );
         return http.build();
     }

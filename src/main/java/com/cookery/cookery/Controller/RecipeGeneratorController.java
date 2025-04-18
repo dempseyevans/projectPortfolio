@@ -23,28 +23,37 @@ public class RecipeGeneratorController {
     
     //Show the Recipe Generator Page
     @GetMapping
-    public String recipeGeneratorForm(@RequestParam(value = "costRange", required=false) Double costRange, @RequestParam(value = "descriptor", required= false) String descriptor, @RequestParam(value="maxCookTime", required=false) Integer maxCookTime, Model model, Principal principal) {
-    
-        // Check if this is an initial page load
-        if (costRange == null && descriptor == null && maxCookTime == null) {
+    public String recipeGeneratorForm(
+        @RequestParam(value = "costRange", required = false) Double costRange,
+        @RequestParam(value = "descriptors", required = false) String descriptorInput,
+        @RequestParam(value = "ingredientNames", required = false) String ingredientInput,
+        @RequestParam(value = "maxCookTime", required = false) Integer maxCookTime,
+        Model model,
+        Principal principal) {
+
+        // Check if this is an initial page load (no filters provided)
+        if (costRange == null && 
+            (descriptorInput == null || descriptorInput.trim().isEmpty()) &&
+            (ingredientInput == null || ingredientInput.trim().isEmpty()) &&
+            maxCookTime == null) {
             return "recipeGenerator"; // Return the page without generating a recipe
         }
 
         String username = principal.getName();
 
-        try{
-            //Generate random recipe using filters
-            Recipe recipe = recipeGeneratorService.generateRandomRecipe(costRange, descriptor, maxCookTime, username);
-    
-            //Add the recipe to the model after submitting
-            model.addAttribute("recipe", recipe);
+        try {
+            // Generate random recipe using filters.
+            // Note that the service method now takes descriptorInput and ingredientInput.
+            Recipe recipe = recipeGeneratorService.generateRandomRecipe(descriptorInput, ingredientInput, costRange, maxCookTime, username);
 
-        } catch (NoSuchElementException e){
-            //Error for no found recipes
+            // Add the recipe to the model after submitting
+            model.addAttribute("recipe", recipe);
+        } catch (NoSuchElementException e) {
+            // Error message if no matching recipes are found
             model.addAttribute("errorMessage", "No recipes match your criteria");
         }
+
         return "recipeGenerator";
-        
     }
     
 }

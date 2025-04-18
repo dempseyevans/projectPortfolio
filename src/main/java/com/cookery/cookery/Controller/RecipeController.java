@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,14 +14,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cookery.cookery.CookeryApplication;
 import com.cookery.cookery.entity.Ingredient;
 import com.cookery.cookery.entity.Recipe;
 import com.cookery.cookery.entity.RecipeIngredient;
+import com.cookery.cookery.entity.User;
 import com.cookery.cookery.service.IngredientService;
 import com.cookery.cookery.service.RecipeService;
 import com.cookery.cookery.service.UserService;
+
 
 
 
@@ -61,58 +65,6 @@ public class RecipeController {
         model.addAttribute("query", query);
         return "recipes";
     }
-        
-
-
-    //Recipe Form - Ingredient Related Methods
-    //Display the ingredient selection page for the recipe form
-    @GetMapping("/choose-ingredients")
-    public String showChooseIngredientsForm(Model model) {
-        model.addAttribute("ingredients", ingredientService.findAll()); // All ingredients
-        model.addAttribute("newIngredient", new Ingredient()); // Form for adding new ingredients
-        return "chooseIngredients";
-    }
-
-    //Add selected ingredients in choose ingredients form to the recipes form and redirect back to the new recipe form
-    @PostMapping("/add-ingredients")
-    public String addIngredients(@RequestParam List<Long> ingredientIds, Model model) {
-        List<Ingredient> selectedIngredients = (List<Ingredient>) model.getAttribute("selectedIngredients");
-    
-       //Create list for ingredients if not existing
-        if (selectedIngredients == null) {
-            selectedIngredients = new ArrayList<>();
-            model.addAttribute("selectedIngredients", selectedIngredients);
-            System.out.println("New selectedIngredients list created in addIngredients method");
-        }
-        
-        //Add ingredients to the list
-        for (Long id : ingredientIds) {
-            Ingredient ingredient = ingredientService.findById(id).orElseThrow(() -> new RuntimeException("Ingredient not found"));
-            if (!selectedIngredients.contains(ingredient)) {
-                selectedIngredients.add(ingredient); // Add to the recipe's temporary ingredient list
-                System.out.println("Ingredient added to list: " + ingredient.getName());
-            }
-        }
-
-        //Debugging
-        System.out.println("Selected ingredients for recipe: " + selectedIngredients);
-
-        return "redirect:/recipes/new"; // Redirect back to the recipe form
-    }
-
-    // Remove an ingredient from the selected list
-    @PostMapping("/remove-ingredient")
-    public String removeIngredient(@RequestParam Long ingredientId, Model model) {
-        List<Ingredient> selectedIngredients = (List<Ingredient>) model.getAttribute("selectedIngredients");
-        if (selectedIngredients != null) {
-            boolean removed = selectedIngredients.removeIf(ingredient -> Long.valueOf(ingredient.getId()).equals(ingredientId));
-            if (!removed) {
-                System.err.println("Ingredient not found in the list.");
-            }
-        }
-        return "redirect:/recipes/new";
-    }
-
     
     //Show the edit recipe form
     @GetMapping("/edit/{id}")
@@ -148,11 +100,13 @@ public class RecipeController {
     //CRUD METHODS BELOW
     //Display create new recipe form
     @GetMapping("/new")
-    public String showAddRecipeForm(Model model) {
+    public String showAddRecipeForm(Model model, Principal principal) {
         model.addAttribute("recipe", new Recipe());
         
+        User user = userService.findByUsername(principal.getName());
+
         //Debugging
-        List<Ingredient> ingredients = ingredientService.findAll();
+        List<Ingredient> ingredients = ingredientService.findAllByUser(user.getId());
         ingredients.forEach(ingredient -> System.out.println("ID: " + ingredient.getId() + "Name: " + ingredient.getName()));
 
         model.addAttribute("ingredients", ingredientService.findAll());
@@ -165,6 +119,29 @@ public class RecipeController {
         
         return "addRecipeForm";
     }
+
+    //Add Ingredients in Recipe form
+    @PostMapping("/addIngredient")
+    @ResponseBody
+    public ResponseEntity<Ingredient> addIngredient(@RequestParam String name, @RequestParam Integer priceCategory, Principal principal) {
+        
+        User user = userService.findByUsername(principal.getName());
+        System.out.println("Principal: " + user.getUsername());
+
+
+        //Create and save new ingredient
+        Ingredient newIngredient = new Ingredient();
+        newIngredient.setName(name);
+        System.out.println("Ingredient " + name + " saved");
+        newIngredient.setPriceCategory(priceCategory);
+        System.out.println(priceCategory + " saved");
+        newIngredient.setUser(user);
+
+        Ingredient savedIngredient = ingredientService.save(newIngredient);
+
+        return ResponseEntity.ok(savedIngredient);
+    }
+    
 
     // Save a new recipe and associate it with the logged-in user
     @PostMapping
