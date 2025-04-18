@@ -8,16 +8,23 @@
     <nav>
         <a href="/recipes">Recipes</a>
         <a href="/generator">Recipe Generator</a>
-        <a href="/users/userInfo">User</a>
+        <a href="/users/userInfo">More</a>
         <a href="/logout">Logout</a>
     </nav>
     <h1>Ingredients</h1>
+
+    <form th:action="@{/ingredients/search}" method="get" class="search-form">
+        <input type="text" name="query" placeholder="Search ingredients..." required />
+        <button type="submit" class="submit-button">Search</button>
+        <button type="button" class="refresh-button" onclick="window.location.href='/ingredients'">Refresh</button>
+    </form>
+
     <table>
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Price Category</th>
-                <th>Modify</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -38,6 +45,6 @@
             </tr>
         </tbody>
     </table>
-    <a class="button-add" th:href="@{/ingredients/new}">Add New Ingredient</a>
+    <a class="button-add" th:href="@{/ingredients/new}">Add Ingredient</a>
 </body>
 </html>

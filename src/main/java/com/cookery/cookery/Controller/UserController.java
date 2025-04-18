@@ -18,7 +18,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +32,7 @@ import com.cookery.cookery.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+
 
 
 @Controller
@@ -216,7 +216,7 @@ public class UserController {
 
     //User Feedback Form
     @PostMapping("/submitFeedback")
-    public String submitFeedback(@RequestParam("feedback") String feedbackText, Principal principal, Model model) {
+    public String submitFeedback(@RequestParam("feedback") String feedbackText, Principal principal, Model model, RedirectAttributes redirectAttributes) {
         //Get ID of user
         User user = userService.findByUsername(principal.getName());
 
@@ -224,19 +224,35 @@ public class UserController {
         feedbackService.saveFeedback(feedbackText, user);
 
         //Feedback success message
-        model.addAttribute("successMessage", "Feedback successfully submitted.");
+        redirectAttributes.addFlashAttribute("successMessage", "Feedback successfully submitted!");
+
         model.addAttribute("user", user);
         
-        return "userInformation";
+        return "redirect:/users/userInfo";
     }
     
+    //Update User Info
+    @GetMapping("/edit")
+    public String showUpdateUserInfoPage(Model model, Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+
+        model.addAttribute("user", user);
+
+        return "editUserInfo";
+    }
     
 
-    /**FIND USER FOR TESTING**/
-    @GetMapping("/{username}")
-    public User getUserbyUsername(@PathVariable String username) {
+    @PostMapping("/update")
+    public String updateUserInfo(@RequestParam("firstName") String firstname, @RequestParam("lastName") String lastName, @RequestParam("email") String email, Principal principal, RedirectAttributes redirectAttributes) {
         
-        return userService.findByUsername(username);
+        User user = userService.findByUsername(principal.getName());
+
+        userService.updateUser(user, firstname, lastName, email);
+        
+        redirectAttributes.addFlashAttribute("successMessage", "Your information has successfully updated");
+
+        return "redirect:/users/userInfo";
     }
+    
     
 }

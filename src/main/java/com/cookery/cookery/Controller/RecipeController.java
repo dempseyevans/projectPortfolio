@@ -109,7 +109,7 @@ public class RecipeController {
         List<Ingredient> ingredients = ingredientService.findAllByUser(user.getId());
         ingredients.forEach(ingredient -> System.out.println("ID: " + ingredient.getId() + "Name: " + ingredient.getName()));
 
-        model.addAttribute("ingredients", ingredientService.findAll());
+        model.addAttribute("ingredients", ingredientService.findAllByUser(user.getId()));
         
         // Initialize/retrieve selectedIngredients for user session
         if (!model.containsAttribute("selectedIngredients")) {

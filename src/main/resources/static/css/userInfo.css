@@ -57,6 +57,9 @@ input[readonly], textarea[readonly] {
     font-size: 1rem;
     border-radius: 4px;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .submit-button:hover {
@@ -82,4 +85,52 @@ nav a {
     text-decoration: none;
     margin-left: 1rem;
     font-size: 1rem;
+}
+.dropdown-guide {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.dropdown-button {
+    background-color: #2E8B57;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+    text-align: left;
+}
+
+.dropdown-button:hover {
+    background-color: #0056b3;
+}
+
+.dropdown-content {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    display: none; /* Hidden by default */
+}
+
+.dropdown-content h3 {
+    margin-top: 10px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.dropdown-content p {
+    margin: 0;
+    color: #666;
 }

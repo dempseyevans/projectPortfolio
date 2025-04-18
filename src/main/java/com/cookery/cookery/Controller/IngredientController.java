@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cookery.cookery.entity.Ingredient;
 import com.cookery.cookery.entity.User;
@@ -52,6 +53,16 @@ public class IngredientController {
     public String newIngredientForm(Model model) {
         model.addAttribute("ingredient", new Ingredient());
         return "addIngredientForm";
+    }
+
+    //Search bar for ingredients
+    @GetMapping("/search")
+    public String searchIngredients(@RequestParam("query") String query, Model model, Principal principal) {
+        // Use the service class method to get filtered results
+        List<Ingredient> ingredients = ingredientService.searchIngredients(query, principal.getName());
+        model.addAttribute("ingredients", ingredients);
+        model.addAttribute("query", query);
+        return "ingredients"; // Return the ingredients page view
     }
 
     //CRUD METHODS BELOW

@@ -11,7 +11,7 @@
         <a href="/ingredients">Ingredients</a>
         <a href="/logout">Logout</a>
     </nav>
-    <h1>User Information</h1>
+    <h1 th:text="${user.firstName + ' ' + user.lastName}"></h1>
 
     <!--User Information Form-->
     <section class="user-info">
@@ -36,6 +36,31 @@
                 <input type="email" id="email" th:value="${user.email}" readonly>
             </div>
         </form>
+        <a href="/users/edit" class="edit-button">Edit</a>
+        <div th:if="${successMessage}" class="success-message">
+            <p th:text="${successMessage}"></p>
+        </div>
+    </section>
+
+    <!--App information/guide-->
+    <section class="dropdown-guide">
+        <button class="dropdown-button" id="dropdownToggle">Learn More About Our Features</button>
+        <div class="dropdown-content" id="dropdownContent" style="display: none;">
+            <h3>Recipes</h3>
+            <p>Create, organize, and manage all your favorite recipes in one place! <br>
+                Recipes can be created using the 'add recipe' button on the bottom. Recipe cost are generated automatically based on the recipes ingredients. <br>
+                The search bar allows you to search through all your existing recipes. You can search by any criteria to find your recipe.</p>
+            
+            <h3>Ingredients</h3>
+            <p>Keep track of your ingredients and organize them for your recipes! <br>
+                To add a new ingredient click the 'add ingredient' button and input a name and cost range. Cost range should be specific to you. <br>
+                Do you personally consider that ingredient to be inexpensive, moderate, or expensive? This provides a more personalized experience that allows you to track ingredients and recipes general cost and stay in a budget.</p>
+            
+            <h3>Recipe Generator</h3>
+            <p>Save time meal planning and get personalized recipe suggestions based on your available ingredients and preferences! <br>
+                Generator filters are optional, not required. <br>
+                Any of the provided fields can be filled out to generate a recipe that fits your needs. If inputting more than on descriptor or ingredient, they must be separated by a comma.</p>
+        </div>
     </section>
 
     <!-- Feedback Form -->
@@ -56,4 +81,14 @@
         </div>
     </section>
 </body>
+
+<!--Script for guide dropdown functionality-->
+<script>
+    const dropdownButton = document.getElementById("dropdownToggle");
+    const dropdownContent = document.getElementById("dropdownContent");
+
+    dropdownButton.addEventListener("click", function () {
+        dropdownContent.style.display = dropdownContent.style.display === "none" ? "block" : "none";
+    });
+</script>
 </html>

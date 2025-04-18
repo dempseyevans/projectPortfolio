@@ -1,5 +1,6 @@
 package com.cookery.cookery.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,7 +28,29 @@ public class IngredientService {
         return ingredientRepository.findByUserId(userId);
     }
 
-    
+    //Search bar for ingredients
+    public List<Ingredient> searchIngredients(String query, String username) {
+        List<Ingredient> filteredIngredients = new ArrayList<>();
+        List<Ingredient> allIngredients = ingredientRepository.findByUserUsername(username); // Retrieve user-specific ingredients
+        String lowerCaseQuery = query.toLowerCase();
+
+        for (Ingredient ingredient : allIngredients) {
+            // Check the ingredient's name
+            if (ingredient.getName() != null && ingredient.getName().toLowerCase().contains(lowerCaseQuery)) {
+                filteredIngredients.add(ingredient);
+            }
+            // Check the price category using symbols
+            else if (lowerCaseQuery.equals("$") && ingredient.getPriceCategory() == 1) {
+                filteredIngredients.add(ingredient);
+            } else if (lowerCaseQuery.equals("$$") && ingredient.getPriceCategory() == 2) {
+                filteredIngredients.add(ingredient);
+            } else if (lowerCaseQuery.equals("$$$") && ingredient.getPriceCategory() == 3) {
+                filteredIngredients.add(ingredient);
+            }
+        }
+        
+        return filteredIngredients;
+    }
     
     //CRUD FUNCTIONALITY BELOW
     public Ingredient save(Ingredient ingredient){

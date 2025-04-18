@@ -9,4 +9,6 @@ import com.cookery.cookery.entity.Ingredient;
 public interface IngredientRepository extends JpaRepository<Ingredient, Long> {
 
     List<Ingredient> findByUserId(Long userId);
+
+    List<Ingredient> findByUserUsername(String username);
 }

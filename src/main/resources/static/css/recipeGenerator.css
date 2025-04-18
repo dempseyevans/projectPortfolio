@@ -1,3 +1,11 @@
+/* General body styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9; /* Light background */
+}
+
 /* Navbar */
 nav {
     background-color: #2E8B57; /* Dark Green */
@@ -10,7 +18,7 @@ nav a {
     color: white;
     text-decoration: none;
     margin-left: 1rem;
-    font-size: 1rem;
+    font-size: 1rem; /* Same font size */
 }
 
 nav a:hover {
@@ -19,7 +27,7 @@ nav a:hover {
 
 /* Container for the generator */
 .generator-container {
-    width: 60%;
+    width: 70%; /* Wider, closer to Recipe Home's table layout (90%) */
     margin: 2rem auto;
     background-color: white;
     padding: 2rem;
@@ -28,33 +36,39 @@ nav a:hover {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
     text-align: center;
 }
+
 .generator-container h1 {
-    font-size: 2rem;
+    font-size: 2.5rem; /* Matches Recipe Home heading font size */
     margin-bottom: 1.5rem;
     color: #2E8B57; /* Dark Green */
 }
-  /* Style the filter form */
+
+/* Style the filter form */
 .generator-form {
-    margin: 1rem 0;
-    text-align: left;
+    margin: 1rem auto; /* Center-align form like the Recipe Home search form */
+    text-align: center; /* Change to center-align inputs */
 }
+
 .generator-form label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: bold;
     color: #333;
 }
+
 .generator-form input[type="text"],
 .generator-form input[type="number"],
 .generator-form select {
-    width: 100%;
+    width: 60%; /* Make input widths align with Recipe Home's search form */
     padding: 0.5rem;
     margin-bottom: 1rem;
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 1rem;
+    text-align: left;
 }
+
 .generator-form button {
     background-color: #2E8B57;
     color: white;
@@ -63,28 +77,86 @@ nav a:hover {
     border-radius: 4px;
     font-size: 1rem;
     cursor: pointer;
-    display: block;
-    margin: 0.5rem auto;
+    display: inline-block; /* Matches Recipe Home buttons */
+    margin: 0.5rem; /* Adjust for spacing consistency */
 }
+
 .generator-form button:hover {
-    background-color: #246B47;
+    background-color: #246B47; /* Darker green for hover */
 }
 
 /* Style the recipe result section */
 .recipe-result {
     margin-top: 2rem;
     text-align: left;
+    width: 90%; /* Matches Recipe Home table width */
+    margin: 2rem auto; /* Center-align results */
 }
+
 .recipe-result h2,
 .recipe-result h3 {
     color: #2E8B57;
     margin-bottom: 0.5rem;
+    text-align: left;
 }
-recipe-result p {
+
+.recipe-result p {
     font-size: 1rem;
     margin: 0.5rem 0;
 }
+
 .recipe-result ul {
     list-style-type: disc;
     margin-left: 2rem;
+    font-size: 1rem;
+}
+
+/* Align with Recipe Home button styles */
+.button-add {
+    display: inline-block;
+    background-color: #2E8B57; /* Dark Green */
+    color: white;
+    padding: 0.5rem 1rem;
+    border: 1px solid black;
+    text-align: center;
+    margin: 1rem auto; /* Reduce spacing for better alignment */
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 4px; /* Rounded corners */
+}
+
+.button-add:hover {
+    background-color: #246B47; /* Matches other hover styles */
+}
+
+/* Search form alignment */
+.search-form {
+    text-align: center;
+    margin: 1rem auto; /* Consistent spacing */
+}
+
+.search-form input[type="text"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 60%; /* Align input width with generator form */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.search-form .submit-button,
+.search-form .refresh-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    background-color: #2E8B57;
+    color: white;
+    cursor: pointer;
+}
+
+.search-form .submit-button:hover,
+.search-form .refresh-button:hover {
+    background-color: #246B47;
 }

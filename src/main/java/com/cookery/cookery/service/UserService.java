@@ -42,6 +42,13 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    public User updateUser(User user, String firstName, String lastName, String email){
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        return userRepository.save(user);
+    }
+
 
     //PASSWORD RESET
     public void createPasswordResetTokenForUser(User user, String token) {
