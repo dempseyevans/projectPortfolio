@@ -1,5 +1,6 @@
 package com.cookery.cookery.dto;
 
+//DTO for creating a new password using a Password Rest Token
 public class PasswordDto {
     
     private String oldPassword;

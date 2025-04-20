@@ -16,22 +16,29 @@ public class IngredientService {
     @Autowired
     private IngredientRepository ingredientRepository;
 
+    //Find all ingredients
     public List<Ingredient> findAll(){
         return ingredientRepository.findAll();
     }
 
+    //Find all ingredients by their id
     public Optional<Ingredient> findById(Long id) {
             return ingredientRepository.findById(id);
         }
 
+    //Find all ingredients by the userId
     public List<Ingredient> findAllByUser(Long userId){
         return ingredientRepository.findByUserId(userId);
     }
 
     //Search bar for ingredients
     public List<Ingredient> searchIngredients(String query, String username) {
+
+        //New list for filtered ingredients
         List<Ingredient> filteredIngredients = new ArrayList<>();
-        List<Ingredient> allIngredients = ingredientRepository.findByUserUsername(username); // Retrieve user-specific ingredients
+
+        //List for all existing ingredients
+        List<Ingredient> allIngredients = ingredientRepository.findByUserUsername(username);
         String lowerCaseQuery = query.toLowerCase();
 
         for (Ingredient ingredient : allIngredients) {
@@ -52,11 +59,12 @@ public class IngredientService {
         return filteredIngredients;
     }
     
-    //CRUD FUNCTIONALITY BELOW
+    //Save new ingredient
     public Ingredient save(Ingredient ingredient){
         return ingredientRepository.save(ingredient);
     }
     
+    //Delete ingredient
     public void deleteById(Long id){
         ingredientRepository.deleteById(id);
     }

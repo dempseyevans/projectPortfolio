@@ -1,64 +1,89 @@
+/*Page Body*/
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9; /* Light background */
+    background-color: #FFFEF9;
+    color: #6A7D6C;
 }
 
+/*Navbar*/
 nav {
-    background-color: #2E8B57; /* Dark Green */
+    background-color: #C1A4D6;
     padding: 1rem;
     display: flex;
     justify-content: flex-end;
+    border-bottom: 2px solid #6A7D6C;
 }
 
 nav a {
-    color: white;
+    color: #6A7D6C;
     text-decoration: none;
     margin-left: 1rem;
+    font-weight: bold;
 }
 
+nav a:hover {
+    color: #FFEDED;
+}
+
+/*Heading*/
 h1 {
-    font-size: 2.5rem;
+    color: #B2E3F2;
     text-align: center;
+    font-size: 2.5rem;
     margin-top: 1rem;
+    font-weight: 800;
+    text-shadow: 1px 1px 0 #6A7D6C;
 }
 
+/*Table*/
 table {
-    width: 90%; /* Consistent with recipes page */
+    width: 90%;
     margin: 2rem auto;
     border-collapse: collapse;
 }
 
 th, td {
-    border: 1px solid #ddd;
+    border: 1px solid #C1A4D6;
     padding: 1rem;
     text-align: left;
 }
 
 th {
-    background-color: #2E8B57; /* Dark Green */
-    color: white;
+    background-color: #C1A4D6;
+    color: #6A7D6C;
+    font-weight: bold;
 }
 
 td {
-    background-color: #f9f9f9; /* Light gray for better readability */
+    background-color: #FFF8E5;
+    color: #6A7D6C;
 }
 
 td span {
-    color: #2E8B57; /* Dark Green text for consistency */
+    color: #6A7D6C;
 }
 
+/*Add Button*/
 .button-add {
     display: inline-block;
-    background-color: #2E8B57;
-    color: white;
+    background-color: #B2E3F2;
+    color: #e6ac65;
     padding: 0.5rem 1rem;
-    border: 1px solid black;
+    border: 0.5px solid #6A92C6;
     text-align: center;
     margin: 2rem;
+    border-radius: 5px;
     position: fixed;
     bottom: 0;
     left: 0;
     text-decoration: none;
+    font-weight: bold;
+}
+
+.button-add:hover {
+    background-color: #FFEDED;
+    color: #6A7D6C;
+    border-color: #6A7D6C;
 }

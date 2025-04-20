@@ -20,7 +20,7 @@ public class Ingredient {
 
     @ManyToOne
     @JoinColumn(name ="userID", nullable=false)
-    private User user;
+    private User user; //Links the ingredient to a user
 
     @Column(name = "name")
     private String name;

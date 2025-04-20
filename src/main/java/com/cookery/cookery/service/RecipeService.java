@@ -53,26 +53,6 @@ public class RecipeService {
         return recipeRepository.findByUserId(userId);
     }
 
-    //Save ingredients from recipe form
-    //Associates the created list of ingredients in the recipe form the individual recipe upon being saved
-    public void saveRecipeWithIngredients(Recipe recipe, List<Long> ingredientIds){
-        Recipe savedRecipe = recipeRepository.save(recipe);
-        for (Long ingredientId: ingredientIds){
-            Optional<Ingredient> optionalIngredient = ingredientRepository.findById(ingredientId);
-                if (optionalIngredient.isPresent()) { 
-                    Ingredient ingredient = optionalIngredient.get();
-                    RecipeIngredient recipeIngredient = new RecipeIngredient();
-                    recipeIngredient.setRecipe(savedRecipe);
-                    recipeIngredient.setIngredient(ingredient);
-                    recipeIngredientService.save(recipeIngredient);
-                    System.out.println("Saved ingredients " + ingredient.getName());
-                } else {
-                    System.err.println("Ingredient with ID " + ingredientId + " not saved");
-                }
-            }
-            //Calculate price range for the recipe
-            calculatePriceRange(savedRecipe);
-        }
     
     //Calculate the price range for the recipe based off the ingredient price ranges
     public void calculatePriceRange(Recipe recipe){
@@ -160,12 +140,13 @@ public class RecipeService {
         return filteredRecipes;
     }
 
-    //CRUD FUNCTIONALITY BELOW
+    //Save the recipe
     public void save(Recipe recipe){
         calculatePriceRange(recipe);
         recipeRepository.save(recipe);
     }
 
+    //Delete Recipe
     public void deleteById(Long id){
         recipeRepository.deleteById(id);
     }

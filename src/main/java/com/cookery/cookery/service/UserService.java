@@ -24,17 +24,19 @@ public class UserService {
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
 
+    //Find user by username
     public User findByUsername(String username)
     {
         return userRepository.findByUsername(username);
     }
 
+    //Find user by email
     public User findByEmail(String email) {
         
         return userRepository.findByEmail(email);
     }
 
-    //CRUD FUNCTIONALITY BELOW
+    //Save the user
     public User saveUser(User user)
     {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -42,6 +44,7 @@ public class UserService {
         return userRepository.save(user);
     }
 
+    //Update user information
     public User updateUser(User user, String firstName, String lastName, String email){
         user.setFirstName(firstName);
         user.setLastName(lastName);
@@ -58,6 +61,7 @@ public class UserService {
 
     }
 
+    //Retrieve user by the password rest token
     public Optional<User> getUserByPasswordResetToken(String token){
         PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token);
         if(resetToken != null && resetToken.getUser() != null){
@@ -66,6 +70,7 @@ public class UserService {
         return Optional.empty();
     }
 
+    //Validate the password reset token
     public String validatePasswordResetToken(String token) {
         final PasswordResetToken passToken = passwordResetTokenRepository.findByToken(token);
 
@@ -74,15 +79,18 @@ public class UserService {
             : null;
     }
 
+    //Check if token is found
     private boolean isTokenFound(PasswordResetToken passToken) {
         return passToken != null;
     }
 
+    //Check if token is expired
     private boolean isTokenExpired(PasswordResetToken passToken) {
         final Calendar cal = Calendar.getInstance();
         return passToken.getExpiryDate().before(cal.getTime()); 
     }
 
+    //Change the user password
     public void changeUserPassword(User user, String password) {
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);

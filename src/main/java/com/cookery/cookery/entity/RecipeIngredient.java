@@ -27,15 +27,14 @@ public class RecipeIngredient {
     @Column(name="recipeIngredientID")
     private Long id;
 
-    //Connect the recipe ingredients to the recipe
     @ManyToOne
     @JoinColumn(name = "recipeID", nullable = false)
-    private Recipe recipe;
+    private Recipe recipe; //Link the recipeIngredients to the recipe
 
-    //Connect the recipe ingredients to the ingredients
+    //Connect the recipe ingredients to the ingredients (they have different attributes)
     @ManyToOne
     @JoinColumn(name = "ingredientID", nullable = false)
-    private Ingredient ingredient;
+    private Ingredient ingredient; //Link the recipeIngredients with ingredients
 
     @Column(name="quantity")
     private String quantity;

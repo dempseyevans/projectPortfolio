@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 
+//Password Reset Token entity to reset users password using email
 @Entity
 public class PasswordResetToken {
 

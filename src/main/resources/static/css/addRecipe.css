@@ -3,44 +3,51 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9; /* Light background */
+    background-color: #FFFEF9;
+    color: #6A7D6C;
 }
 
 /* Navigation Bar */
 nav {
-    background-color: #2E8B57; /* Dark Green */
+    background-color: #C1A4D6;
     padding: 1rem;
     display: flex;
-    justify-content: flex-end; /* Align links to the right */
+    justify-content: flex-end;
+    border-bottom: 2px solid #6A7D6C;
 }
 
 nav a {
-    color: white;
+    color: #6A7D6C;
     text-decoration: none;
     margin-left: 1rem;
     font-size: 1rem;
+    font-weight: bold;
 }
 
 nav a:hover {
-    text-decoration: underline; /* Hover effect */
+    color: #FFEDED;
+    text-decoration: underline;
 }
 
 /* Page Title */
 h1 {
     text-align: center;
-    color: #2E8B57; /* Dark Green */
+    color: #B2E3F2;
+    font-size: 2.5rem;
     margin-top: 1.5rem;
+    font-weight: 800;
+    text-shadow: 1px 1px 0 #6A7D6C;
 }
 
 /* Container Styling */
 .container {
     width: 60%;
     margin: 2rem auto;
-    background-color: white;
+    background-color: #FFEDED;
     padding: 2rem;
-    border: 1px solid #ddd;
+    border: 1px solid #C1A4D6;
     border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Form Sections */
@@ -49,8 +56,8 @@ h1 {
 }
 
 .form-section h2 {
-    color: #2E8B57;
-    border-bottom: 2px solid #ddd;
+    color: #B2E3F2;
+    border-bottom: 2px solid #C1A4D6;
     padding-bottom: 0.5rem;
     margin-bottom: 1rem;
     font-size: 1.5rem;
@@ -61,24 +68,28 @@ h1 {
     margin-bottom: 1.5rem;
 }
 
+/* Labels */
 label {
     display: block;
     font-weight: bold;
     margin-bottom: 0.5rem;
-    color: #333;
+    color: #6A7D6C;
 }
 
+/* Input Fields */
 input[type="text"], textarea {
     width: 100%;
     padding: 0.8rem;
-    border: 1px solid #ddd;
+    border: 1px solid #C1A4D6;
     border-radius: 4px;
     font-size: 1rem;
     box-sizing: border-box;
+    background-color: #E6F7F8;
+    color: #6A7D6C;
 }
 
 textarea {
-    resize: vertical; /* Allow resizing only vertically */
+    resize: vertical;
 }
 
 /* Ingredient List */
@@ -97,6 +108,9 @@ textarea {
 
 .ingredients-list input[type="text"] {
     width: 50%;
+    border: 1px solid #C1A4D6;
+    background-color: #E6F7F8;
+    color: #6A7D6C;
 }
 
 /* Form Actions */
@@ -104,42 +118,52 @@ textarea {
     text-align: center;
 }
 
+/* Submit Button */
 button.submit-button {
-    background-color: #2E8B57;
-    color: white;
-    border: none;
+    background-color: #B2E3F2;
+    color: #e6ac65;
+    border: 1px solid #6A92C6;
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
     border-radius: 4px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 button.submit-button:hover {
-    background-color: #246B47;
+    background-color: #FFEDED;
+    color: #6A7D6C;
+    border-color: #6A7D6C;
 }
 
+/* Back Link */
 .back-link {
     margin-left: 1rem;
-    color: #2E8B57;
+    color: #B2E3F2;
     text-decoration: none;
     font-size: 1rem;
+    font-weight: bold;
 }
 
 .back-link:hover {
+    color: #FFEDED;
     text-decoration: underline;
 }
+
+/* Modal */
 .modal {
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
+    background-color: #FFEDED;
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #C1A4D6;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     z-index: 1000;
 }
 
+/* Modal Content */
 .modal-content {
     display: flex;
     flex-direction: column;
@@ -147,17 +171,34 @@ button.submit-button:hover {
 
 .modal-content h3 {
     margin-top: 0;
+    color: #B2E3F2;
 }
 
 .modal-content label {
     margin-bottom: 5px;
+    color: #6A7D6C;
 }
 
 .modal-content input {
     margin-bottom: 10px;
     padding: 5px;
+    border: 1px solid #C1A4D6;
+    background-color: #E6F7F8;
+    color: #6A7D6C;
 }
 
+/* General Button Styling */
 button {
     margin-top: 10px;
+    background-color: #B2E3F2;
+    color: #e6ac65;
+    border: 1px solid #6A92C6;
+    padding: 0.8rem;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+button:hover {
+    background-color: #FFEDED;
+    color: #6A7D6C;
 }

@@ -1,5 +1,6 @@
 package com.cookery.cookery.entity;
 
+//Generic response entity used to display messages to the user
 public class GenericResponse {
     
     private String message;

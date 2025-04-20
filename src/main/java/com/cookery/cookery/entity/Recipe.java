@@ -24,7 +24,7 @@ public class Recipe {
 
     @ManyToOne
     @JoinColumn(name= "userID", nullable=false)
-    private User user;
+    private User user; //Links a recipe to a user
 
     private String name;
 
@@ -37,9 +37,9 @@ public class Recipe {
     private Double cost;
     private String descriptors;
 
-    //Connect the RecipeIngredients to the Recipe as a list of recipe ingredients
+    //List of recipe ingredients
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval=true)
-    private List<RecipeIngredient> recipeIngredients = new ArrayList<>();
+    private List<RecipeIngredient> recipeIngredients = new ArrayList<>(); //Links the recipe and RecipeIngredients
 
     public Long getRecipeID() {
         return recipeID;

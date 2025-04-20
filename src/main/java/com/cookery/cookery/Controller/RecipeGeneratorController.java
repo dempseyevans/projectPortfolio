@@ -43,7 +43,6 @@ public class RecipeGeneratorController {
 
         try {
             // Generate random recipe using filters.
-            // Note that the service method now takes descriptorInput and ingredientInput.
             Recipe recipe = recipeGeneratorService.generateRandomRecipe(descriptorInput, ingredientInput, costRange, maxCookTime, username);
 
             // Add the recipe to the model after submitting

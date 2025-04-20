@@ -36,10 +36,10 @@ public class User {
     private String lastName;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Recipe> recipes;
+    private List<Recipe> recipes; //List of users recipes
 
     @OneToMany(mappedBy="user", cascade= CascadeType.ALL, orphanRemoval=true)
-    private List<Ingredient> ingredients;
+    private List<Ingredient> ingredients; //List of users ingredients
 
     //User Roles Implementation
     @Column(nullable=false)

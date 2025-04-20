@@ -139,11 +139,11 @@ public class UserController {
     private SimpleMailMessage constructResetTokenEmail(
         String contextPath, Locale locale, String token, User user) {
             String url = contextPath + "/users/changePassword?token=" + token;
-            String message = "Please click the provided link to reset your password. This link expires in 24 hours:"; 
+            String message = "Please click the provided link to reset your password. This link expires in 24 hours:";
             return constructEmail("Reset Password", message + " \r\n" + url, user);
         }
 
-    private SimpleMailMessage constructEmail(String subject, String body, 
+    private SimpleMailMessage constructEmail(String subject, String body,
         User user) {
             SimpleMailMessage email = new SimpleMailMessage();
             email.setSubject(subject);
@@ -160,8 +160,9 @@ public class UserController {
     }
     
 
+    //Show change password page
     @GetMapping("/changePassword")
-    public String showChangePasswordPage(Locale locale, Model model, 
+    public String showChangePasswordPage(Locale locale, Model model,
     @RequestParam("token") String token) {
         String result = userService.validatePasswordResetToken(token);
         if(result != null) {
@@ -170,14 +171,14 @@ public class UserController {
         } else {
             model.addAttribute("token", token);
             return "redirect:/updatePassword.html?lang=" + locale.getLanguage();
+        }
     }
-}
     
 
     //User Information Page
     @GetMapping("/userInfo")
     public String userInformationForm(Model model) {
-        //Retrieve currently logged-in users username through Spring Security Security Context Holder
+        //Retrieve currently logged-in users username 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
         
@@ -192,6 +193,7 @@ public class UserController {
         return "userInformation";
     }
 
+    //Save updated password
     @PostMapping("/savePassword")
     public GenericResponse savePassword(final Locale locale, @Valid PasswordDto passwordDto) {
 
@@ -231,7 +233,7 @@ public class UserController {
         return "redirect:/users/userInfo";
     }
     
-    //Update User Info
+    //Update User Info page
     @GetMapping("/edit")
     public String showUpdateUserInfoPage(Model model, Principal principal) {
         User user = userService.findByUsername(principal.getName());
@@ -242,6 +244,7 @@ public class UserController {
     }
     
 
+    //Update user info
     @PostMapping("/update")
     public String updateUserInfo(@RequestParam("firstName") String firstname, @RequestParam("lastName") String lastName, @RequestParam("email") String email, Principal principal, RedirectAttributes redirectAttributes) {
         

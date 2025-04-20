@@ -16,11 +16,10 @@ import com.cookery.cookery.repository.RecipeRepository;
 public class RecipeGeneratorService {
 
 
-
     @Autowired
     private RecipeRepository recipeRepository;
 
-
+    //Generate a random recipe with and without filters
     public Recipe generateRandomRecipe(String descriptorInput, String ingredientInput, Double costRange, Integer maxCookTime, String username) {
 
         //List of all existing recipes

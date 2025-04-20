@@ -21,7 +21,7 @@ public class Feedback {
 
     @ManyToOne
     @JoinColumn(name = "userID", nullable = false)
-    private User user; // Link feedback to the user
+    private User user; // Links the feedback to the user
 
     @Column(nullable = false)
     private String feedback;

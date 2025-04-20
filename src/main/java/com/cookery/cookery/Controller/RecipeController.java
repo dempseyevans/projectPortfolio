@@ -50,7 +50,7 @@ public class RecipeController {
     //Display Recipes as a list
     @GetMapping
     public String home(Model model, Principal principal) {
-        //Display on recipes by the logged-in user
+        //Display only recipes by the logged-in user
         Long userId = userService.findByUsername(principal.getName()).getId();
         List<Recipe> recipes = recipeService.findAllByUser(userId);
         
@@ -58,9 +58,12 @@ public class RecipeController {
         return "recipes";
     }
 
+    //Search recipes
     @GetMapping("/search")
     public String searchRecipes(@RequestParam("query") String query, Model model, Principal principal) {
+        //Use the service class to get a filtered list of recipes
         List<Recipe> recipes = recipeService.searchRecipe(query, principal.getName());
+
         model.addAttribute("recipes", recipes);
         model.addAttribute("query", query);
         return "recipes";
@@ -69,12 +72,17 @@ public class RecipeController {
     //Show the edit recipe form
     @GetMapping("/edit/{id}")
     public String showEditRecipeForm(@PathVariable("id") Long id, Model model, Principal principal) {
+        
+        //Find recipe by user
         Recipe recipe = recipeService.findById(id).orElseThrow(() -> new RuntimeException("Recipe not found"));
         if (!recipe.getUser().getUsername().equals(principal.getName())) {
             throw new RuntimeException("Unauthorized access");
         }
 
+        //List of the recipes ingredients
         List<RecipeIngredient> existingIngredients = recipe.getRecipeIngredients();
+        
+        //List of users available ingredients
         List<Ingredient> availableIngredients = recipeService.findAvailableIngredients(recipe);
         
         model.addAttribute("recipe", recipe);
@@ -86,6 +94,7 @@ public class RecipeController {
     //Show the recipe details
     @GetMapping("/view/{id}")
     public String viewRecipe(@PathVariable("id") Long id, Model model, Principal principal) {
+        //Retrieve the recipe
         Recipe recipe = recipeService.findById(id).orElseThrow(() -> new RuntimeException("Recipe not found"));
         if (!recipe.getUser().getUsername().equals(principal.getName())) {
             throw new RuntimeException("Unauthorized access");
@@ -97,21 +106,22 @@ public class RecipeController {
     }
     
 
-    //CRUD METHODS BELOW
     //Display create new recipe form
     @GetMapping("/new")
     public String showAddRecipeForm(Model model, Principal principal) {
+        
         model.addAttribute("recipe", new Recipe());
         
+        //User information to associate with recipe
         User user = userService.findByUsername(principal.getName());
 
-        //Debugging
+        //List of users existing ingredients and debugging
         List<Ingredient> ingredients = ingredientService.findAllByUser(user.getId());
         ingredients.forEach(ingredient -> System.out.println("ID: " + ingredient.getId() + "Name: " + ingredient.getName()));
 
         model.addAttribute("ingredients", ingredientService.findAllByUser(user.getId()));
         
-        // Initialize/retrieve selectedIngredients for user session
+        // Empty list of ingredients to manage ingredients in the creation/save process
         if (!model.containsAttribute("selectedIngredients")) {
             model.addAttribute("selectedIngredients", new ArrayList<>());
             System.out.println("Created an empty list for ingredients");
@@ -120,16 +130,17 @@ public class RecipeController {
         return "addRecipeForm";
     }
 
-    //Add Ingredients in Recipe form
+    //Add new Ingredients in Recipe form
     @PostMapping("/addIngredient")
     @ResponseBody
     public ResponseEntity<Ingredient> addIngredient(@RequestParam String name, @RequestParam Integer priceCategory, Principal principal) {
         
+        //Get user info and debugging
         User user = userService.findByUsername(principal.getName());
         System.out.println("Principal: " + user.getUsername());
 
 
-        //Create and save new ingredient
+        //Create and save new ingredient and debugging
         Ingredient newIngredient = new Ingredient();
         newIngredient.setName(name);
         System.out.println("Ingredient " + name + " saved");
@@ -137,6 +148,7 @@ public class RecipeController {
         System.out.println(priceCategory + " saved");
         newIngredient.setUser(user);
 
+        //Save new ingredient to ingredients table
         Ingredient savedIngredient = ingredientService.save(newIngredient);
 
         return ResponseEntity.ok(savedIngredient);
@@ -148,34 +160,33 @@ public class RecipeController {
     public String saveRecipe(@ModelAttribute Recipe recipe, @RequestParam List<Long> ingredientIds,@RequestParam List<String> quantities,
     Principal principal) {
 
+        // Get the logged-in user and associate them with the recipe
+        recipe.setUser(userService.findByUsername(principal.getName()));
 
-    // Get the logged-in user and associate them with the recipe
-    recipe.setUser(userService.findByUsername(principal.getName()));
+        // Process ingredients and their corresponding quantities
+        for (int i = 0; i < ingredientIds.size(); i++) {
+            Long ingredientId = ingredientIds.get(i);
+            String quantity = quantities.get(i);
 
-    // Process ingredients and their corresponding quantities
-    for (int i = 0; i < ingredientIds.size(); i++) {
-        Long ingredientId = ingredientIds.get(i);
-        String quantity = quantities.get(i);
+            // Validate quantity
+            if (quantity != null && !quantity.trim().isEmpty() && !quantity.equalsIgnoreCase("0")) {
+                // Fetch the Ingredient entity
+                Ingredient ingredient = ingredientService.findById(ingredientId)
+                    .orElseThrow(() -> new RuntimeException("Ingredient not found: " + ingredientId));
 
-        // Validate quantity
-        if (quantity != null && !quantity.trim().isEmpty() && !quantity.equalsIgnoreCase("0")) {
-            // Fetch the Ingredient entity
-            Ingredient ingredient = ingredientService.findById(ingredientId)
-                .orElseThrow(() -> new RuntimeException("Ingredient not found: " + ingredientId));
+                // Create and add RecipeIngredient
+                recipe.addRecipeIngredient(new RecipeIngredient(recipe, ingredient, quantity));
 
-            // Create and add RecipeIngredient
-            recipe.addRecipeIngredient(new RecipeIngredient(recipe, ingredient, quantity));
-
-            // Debugging
-            System.out.println("Added RecipeIngredient: Ingredient ID = " + ingredientId + ", Quantity = " + quantity);
+                // Debugging
+                System.out.println("Added RecipeIngredient: Ingredient ID = " + ingredientId + ", Quantity = " + quantity);
+            }
         }
-    }
 
-        // Save the recipe, including its associated ingredients
-        recipeService.save(recipe);
+            // Save the recipe, including its associated ingredients
+            recipeService.save(recipe);
 
 
-        return "redirect:/recipes"; // Redirect to the list of recipes
+            return "redirect:/recipes"; // Redirect to the list of recipes
     }
     
     //Edit Recipe
@@ -187,11 +198,10 @@ public class RecipeController {
     @RequestParam(value="newIngredientIds", required=false) List<Long> newIngredientIds,
     @RequestParam(value="newQuantities", required=false) List<String> newQuantities,
     Principal principal) {
+
+        //Retrieve the rrecipe with error handling
         Recipe existingRecipe = recipeService.findById(id)
         .orElseThrow(() -> new RuntimeException("Recipe not found"));
-        if (!existingRecipe.getUser().getUsername().equals(principal.getName())) {
-            throw new RuntimeException("Unauthorized access");
-        }
 
         // Update the basic recipe details:
         existingRecipe.setName(recipe.getName());
@@ -199,10 +209,10 @@ public class RecipeController {
         existingRecipe.setInstructions(recipe.getInstructions());
         existingRecipe.setDescriptors(recipe.getDescriptors());
 
-        // Clear out current recipeIngredients so we can rebuild them:
+        // Clear out current recipeInredients
         existingRecipe.getRecipeIngredients().clear();
 
-        // Process existing ingredients: re-add them if the quantity isn’t empty.
+        // Process existing ingredients and add them if the quantity isn’t empty.
         if (existingRecipeIngredientIds != null && existingQuantities != null) {
             for (int i = 0; i < existingRecipeIngredientIds.size(); i++) {
                 Long ingredientId = existingRecipeIngredientIds.get(i);
@@ -215,7 +225,7 @@ public class RecipeController {
             }
         }
 
-        // Process new ingredients (if any):
+        // Process any new ingredients from add new ingredient button
         if (newIngredientIds != null && newQuantities != null) {
             for (int i = 0; i < newIngredientIds.size(); i++) {
                 Long ingredientId = newIngredientIds.get(i);
@@ -236,11 +246,7 @@ public class RecipeController {
 
     //Delete Recipe
     @GetMapping("/delete/{id}")
-    public String deleteRecipe(@PathVariable("id") Long id, Principal principal) {
-        Recipe recipe = recipeService.findById(id).orElseThrow(() -> new RuntimeException("Recipe not found"));
-        if (!recipe.getUser().getUsername().equals(principal.getName())) {
-            throw new RuntimeException("Unauthorized access");
-        }
+    public String deleteRecipe(@PathVariable("id") Long id) {
         recipeService.deleteById(id);
         return "redirect:/recipes";
     }

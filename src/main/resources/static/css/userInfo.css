@@ -1,44 +1,55 @@
+/* General Body Styling */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f9f9f9; /* Light background */
+    background-color: #FFFEF9;
+    color: #6A7D6C;
 }
 
+/* Headings */
 h1, h2 {
     text-align: center;
-    color: #2E8B57; /* Dark Green */
+    color: #B2E3F2;
     margin-top: 1rem;
+    font-weight: 800;
+    text-shadow: 1px 1px 0 #6A7D6C;
 }
 
+/* User Info and Feedback Containers */
 .user-info, .feedback {
     width: 60%;
     margin: 2rem auto;
-    background-color: white; /* Contrast against background */
+    background-color: #FFEDED;
     padding: 2rem;
-    border: 1px solid #ddd;
+    border: 1px solid #C1A4D6;
     border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+/* Form Group Styling */
 .form-group {
     margin-bottom: 1.5rem;
 }
 
+/* Labels */
 label {
     display: block;
     font-weight: bold;
-    color: #333;
+    color: #6A7D6C;
     margin-bottom: 0.5rem;
 }
 
+/* Input Fields and Textareas */
 input[type="text"], input[type="email"], textarea {
     width: 100%;
     padding: 0.8rem;
-    border: 1px solid #ddd;
+    border: 1px solid #C1A4D6;
     border-radius: 4px;
     font-size: 1rem;
     box-sizing: border-box;
+    background-color: #E6F7F8;
+    color: #6A7D6C;
 }
 
 textarea {
@@ -46,13 +57,14 @@ textarea {
 }
 
 input[readonly], textarea[readonly] {
-    background-color: #f0f0f0; /* Slightly gray out readonly fields */
+    background-color: #FFF8E5;
 }
 
+/* Submit Button */
 .submit-button {
-    background-color: #2E8B57; /* Dark Green */
-    color: white;
-    border: none;
+    background-color: #B2E3F2;
+    color: #FFEDED;
+    border: 1px solid #6A92C6;
     padding: 0.8rem 1.5rem;
     font-size: 1rem;
     border-radius: 4px;
@@ -60,48 +72,61 @@ input[readonly], textarea[readonly] {
     display: flex;
     justify-content: center;
     align-items: center;
+    font-weight: bold;
 }
 
 .submit-button:hover {
-    background-color: #246B47; /* Darker green on hover */
+    background-color: #FFEDED;
+    color: #6A7D6C;
+    border-color: #6A7D6C;
 }
 
+/* Success Message */
 .success-message {
     text-align: center;
-    color: #2E8B57; /* Match green theme for success */
+    color: #B2E3F2;
     margin-top: 1rem;
     font-weight: bold;
 }
 
+/* Navbar */
 nav {
-    background-color: #2E8B57; /* Dark Green */
+    background-color: #C1A4D6;
     padding: 1rem;
     display: flex;
-    justify-content: flex-end; /* Align links to the right */
+    justify-content: flex-end;
+    border-bottom: 2px solid #6A7D6C;
 }
 
 nav a {
-    color: white;
+    color: #6A7D6C;
     text-decoration: none;
     margin-left: 1rem;
     font-size: 1rem;
+    font-weight: bold;
 }
+
+nav a:hover {
+    color: #FFEDED;
+}
+
+/* Dropdown Guide */
 .dropdown-guide {
     margin: 20px 0;
     padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    background-color: #FFF8E5;
+    border: 1px solid #C1A4D6;
     border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 20px 0;
 }
 
+/* Dropdown Button */
 .dropdown-button {
-    background-color: #2E8B57;
-    color: white;
-    border: none;
+    background-color: #B2E3F2;
+    color: #FFEDED;
+    border: 1px solid #6A92C6;
     padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
@@ -112,25 +137,27 @@ nav a {
 }
 
 .dropdown-button:hover {
-    background-color: #0056b3;
+    background-color: #FFEDED;
+    color: #6A7D6C;
 }
 
+/* Dropdown Content */
 .dropdown-content {
     margin-top: 10px;
     padding: 10px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
+    background-color: #FFEDED;
+    border: 1px solid #C1A4D6;
     border-radius: 5px;
-    display: none; /* Hidden by default */
+    display: none;
 }
 
 .dropdown-content h3 {
     margin-top: 10px;
     margin-bottom: 5px;
-    color: #333;
+    color: #6A7D6C;
 }
 
 .dropdown-content p {
     margin: 0;
-    color: #666;
+    color: #6A7D6C;
 }

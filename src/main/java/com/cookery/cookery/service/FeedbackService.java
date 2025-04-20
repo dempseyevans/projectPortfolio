@@ -15,6 +15,7 @@ public class FeedbackService {
     @Autowired
     private FeedbackRepository feedbackRepository;
 
+    //Save the user feedback
     public void saveFeedback(String feedbackText, User user) {
         Feedback feedback = new Feedback();
         feedback.setUser(user); // Associate the feedback with the user

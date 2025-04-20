@@ -38,10 +38,11 @@ public class IngredientController {
     //Exception handling for debugging service error 500
     @GetMapping
     public String listIngredients(Model model, Principal principal) {
+        
         try{
             User currentUser = userService.findByUsername(principal.getName());
             List<Ingredient> ingredients = ingredientService.findAllByUser(currentUser.getId());
-        model.addAttribute("ingredients", ingredients);
+            model.addAttribute("ingredients", ingredients);
         } catch (Exception e){
             logger.error("Error displaying ingredient: " + e.getMessage());
         }
@@ -49,39 +50,33 @@ public class IngredientController {
     }
 
     //Display create new ingredient Form
-    @GetMapping("/new")
-    public String newIngredientForm(Model model) {
-        model.addAttribute("ingredient", new Ingredient());
-        return "addIngredientForm";
-    }
+        @GetMapping("/new")
+        public String newIngredientForm(Model model) {
+            model.addAttribute("ingredient", new Ingredient());
+            return "addIngredientForm";
+        }
 
-    //Search bar for ingredients
-    @GetMapping("/search")
-    public String searchIngredients(@RequestParam("query") String query, Model model, Principal principal) {
-        // Use the service class method to get filtered results
-        List<Ingredient> ingredients = ingredientService.searchIngredients(query, principal.getName());
-        model.addAttribute("ingredients", ingredients);
-        model.addAttribute("query", query);
-        return "ingredients"; // Return the ingredients page view
-    }
-
-    //CRUD METHODS BELOW
+    //Save ingredients
     @PostMapping
-public String saveIngredient(@ModelAttribute Ingredient ingredient, Principal principal) {
-    // Retrieve the logged-in user
-    User user = userService.findByUsername(principal.getName());
-    
-    // Associate the ingredient with the user
-    ingredient.setUser(user);
-    
-    // Save the ingredient
-    ingredientService.save(ingredient);
-    
-    return "redirect:/ingredients";
-}
+    public String saveIngredient(@ModelAttribute Ingredient ingredient, Principal principal) {
 
+        // Retrieve the logged-in user
+        User user = userService.findByUsername(principal.getName());
+        
+        // Associate the ingredient with the user
+        ingredient.setUser(user);
+        
+        // Save the ingredient
+        ingredientService.save(ingredient);
+        
+        return "redirect:/ingredients";
+    }
+
+    //Edit ingredient
     @GetMapping("/edit/{id}")
     public String editIngredientForm(@PathVariable Long id, Model model) {
+
+        //Retrieve the ingredient for the form
         Optional<Ingredient> ingredient = ingredientService.findById(id);
         if(ingredient.isPresent()){
         model.addAttribute("ingredient", ingredient.get());
@@ -90,30 +85,32 @@ public String saveIngredient(@ModelAttribute Ingredient ingredient, Principal pr
         return "redirect:/ingredients";
     }
 
+    //Save updated ingredient
     @PostMapping("/update")
     public String updateIngredient(@ModelAttribute Ingredient ingredient) {
+
         ingredientService.save(ingredient);
         return "redirect:/ingredients";
     }
 
+    //Delete ingredient
     @GetMapping("/delete/{id}")
     public String deleteIngredient(@PathVariable Long id) {
+
         ingredientService.deleteById(id);
         return "redirect:/ingredients";
     }
 
-    //Handle adding new ingredients on the recipe form
-    @PostMapping("/add")
-    public String addIngredient(@ModelAttribute Ingredient newIngredient, Principal principal) {
-        User user = userService.findByUsername(principal.getName());
-        newIngredient.setUser(user); // Associate the ingredient with the logged-in user
+     //Search bar for ingredients
+    @GetMapping("/search")
+    public String searchIngredients(@RequestParam("query") String query, Model model, Principal principal) {
 
-        // Save the ingredient
-        ingredientService.save(newIngredient);
+        // Use the service class method to get list of filtered ingredients
+        List<Ingredient> ingredients = ingredientService.searchIngredients(query, principal.getName());
 
-        // Redirect back to the recipe creation form
-        return "redirect:/recipes/new";
+        model.addAttribute("ingredients", ingredients);
+        model.addAttribute("query", query);
+        return "ingredients"; // Return the ingredients page view
     }
-    
 }
 
