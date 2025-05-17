@@ -40,6 +40,7 @@ public class SecurityConfig {
             .formLogin(formLogin -> formLogin
                 .loginPage("/login")
                 .defaultSuccessUrl("/recipes", true)
+                .failureUrl("/login?error=true")
                 .permitAll()
             )
             .logout(logout -> logout

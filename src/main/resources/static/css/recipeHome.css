@@ -74,6 +74,10 @@ h1 {
     background-color: #B2E3F2;
 }
 
+.search-form .refresh-button{
+    margin-left: 10px;
+}
+
 /*Table*/
 table {
     width: 100%;

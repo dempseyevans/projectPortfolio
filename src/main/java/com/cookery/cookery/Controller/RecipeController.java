@@ -2,6 +2,8 @@ package com.cookery.cookery.Controller;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,11 +85,28 @@ public class RecipeController {
         List<RecipeIngredient> existingIngredients = recipe.getRecipeIngredients();
         
         //List of users available ingredients
-        List<Ingredient> availableIngredients = recipeService.findAvailableIngredients(recipe);
+        List<Ingredient> availableIngredients = ingredientService.findAllByUser(recipe.getUser().getId());
         
+        //Sort ingredients to be displayed separately and alphabetically
+        List<Long> existingIngredientIds = new ArrayList<>();
+        for(RecipeIngredient ri : recipe.getRecipeIngredients()) {
+            existingIngredientIds.add(ri.getIngredient().getId());
+        }
+
+        //List to sort available ingredients
+        List<Ingredient> sortedAvailableIngredients = new ArrayList<>();
+        for(Ingredient ingredient : availableIngredients) {
+            if(!existingIngredientIds.contains(ingredient.getId())) {
+                sortedAvailableIngredients.add(ingredient);
+            }
+        }
+
+        Collections.sort(sortedAvailableIngredients, Comparator.comparing(Ingredient::getName, String.CASE_INSENSITIVE_ORDER));
+
+
         model.addAttribute("recipe", recipe);
         model.addAttribute("existingIngredients", existingIngredients);
-        model.addAttribute("availableIngredients", availableIngredients);
+        model.addAttribute("availableIngredientsSorted", sortedAvailableIngredients);
         return "editRecipe"; // Thymeleaf template for editing a recipe
     }
 
@@ -197,9 +216,9 @@ public class RecipeController {
     @RequestParam(value="existingQuantities", required=false) List<String> existingQuantities,
     @RequestParam(value="newIngredientIds", required=false) List<Long> newIngredientIds,
     @RequestParam(value="newQuantities", required=false) List<String> newQuantities,
-    Principal principal) {
+    Principal principal ) {
 
-        //Retrieve the rrecipe with error handling
+        //Retrieve the recipe with error handling
         Recipe existingRecipe = recipeService.findById(id)
         .orElseThrow(() -> new RuntimeException("Recipe not found"));
 
@@ -209,8 +228,8 @@ public class RecipeController {
         existingRecipe.setInstructions(recipe.getInstructions());
         existingRecipe.setDescriptors(recipe.getDescriptors());
 
-        // Clear out current recipeInredients
-        existingRecipe.getRecipeIngredients().clear();
+        //List to process existing ingredients
+        List<RecipeIngredient> updatedIngredients = new ArrayList<>();
 
         // Process existing ingredients and add them if the quantity isn’t empty.
         if (existingRecipeIngredientIds != null && existingQuantities != null) {
@@ -220,7 +239,7 @@ public class RecipeController {
             if (quantity != null && !quantity.trim().isEmpty() && !quantity.equalsIgnoreCase("0")) {
                 Ingredient ingredient = ingredientService.findById(ingredientId)
                 .orElseThrow(() -> new RuntimeException("Ingredient not found: " + ingredientId));
-                existingRecipe.addRecipeIngredient(new RecipeIngredient(existingRecipe, ingredient, quantity));
+                updatedIngredients.add(new RecipeIngredient(existingRecipe, ingredient, quantity));
             }
             }
         }
@@ -233,14 +252,18 @@ public class RecipeController {
             if (quantity != null && !quantity.trim().isEmpty() && !quantity.equalsIgnoreCase("0")) {
                 Ingredient ingredient = ingredientService.findById(ingredientId)
                 .orElseThrow(() -> new RuntimeException("Ingredient not found: " + ingredientId));
-                existingRecipe.addRecipeIngredient(new RecipeIngredient(existingRecipe, ingredient, quantity));
+                updatedIngredients.add(new RecipeIngredient(existingRecipe, ingredient, quantity));
             }
             }
         }
 
+        //Update recipe ingredients
+        existingRecipe.setRecipeIngredients(updatedIngredients);
+
         // Save the updated recipe with its ingredients:
         recipeService.save(existingRecipe);
 
+    
         return "redirect:/recipes";
     }
 

@@ -37,9 +37,7 @@
             </div>
         </form>
         <a href="/users/edit" class="edit-button">Edit</a>
-        <div th:if="${successMessage}" class="success-message">
-            <p th:text="${successMessage}"></p>
-        </div>
+        
     </section>
 
     <!--App information/guide-->
@@ -63,6 +61,8 @@
         </div>
     </section>
 
+    
+
     <!-- Feedback Form -->
     <section class="feedback">
         <h2>Submit Feedback</h2>
@@ -79,6 +79,7 @@
         <div th:if="${successMessage}" class="success-message">
             <p th:text="${successMessage}"></p>
         </div>
+
     </section>
 </body>
 

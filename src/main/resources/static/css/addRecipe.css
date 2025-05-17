@@ -202,3 +202,17 @@ button:hover {
     background-color: #FFEDED;
     color: #6A7D6C;
 }
+
+/* Add spacing between existing and available ingredients */
+.separator {
+    margin: 30px 0;
+    height: 2px;
+    background-color: #ccc;
+    border-radius: 5px;
+}
+
+/* Style available ingredients for easy readability */
+.available-ingredients li {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}

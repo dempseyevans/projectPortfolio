@@ -31,7 +31,7 @@ public class RecipeGeneratorService {
         //User input list
         //Separates the user input using the inputted commas and creates a list
         List<String> descriptorToken = new ArrayList<>();
-        if(descriptorInput != null && descriptorInput.trim().isEmpty()){
+        if(descriptorInput != null && !descriptorInput.trim().isEmpty()){
             for(String token : descriptorInput.split(",")){
                 if(!token.trim().isEmpty()) {
                     descriptorToken.add(token.trim().toLowerCase());
@@ -40,7 +40,7 @@ public class RecipeGeneratorService {
         }
 
         List<String> ingredientToken = new ArrayList<>();
-        if(ingredientInput != null && ingredientInput.trim().isEmpty()){
+        if(ingredientInput != null && !ingredientInput.trim().isEmpty()){
             for(String token : ingredientInput.split(",")){
                 if(!token.trim().isEmpty()){
                     ingredientToken.add(token.trim().toLowerCase());
@@ -112,9 +112,18 @@ public class RecipeGeneratorService {
         }
 
         //Error for no found recipes
-        if (filteredRecipes.isEmpty()){
-            throw new NoSuchElementException("No recipes could be generated");
+        if (filteredRecipes.isEmpty()) {
+            if (!allRecipes.isEmpty()) {
+                // Pick any recipe when no filters are applied
+                Random random = new Random();
+                return allRecipes.get(random.nextInt(allRecipes.size()));
+            } else {
+                throw new NoSuchElementException("No recipes are available");
+            }
         }
+
+        //Debugging
+        System.out.println("Filtered Recipes Count: " + filteredRecipes.size());
 
         //Pick a random recipe from the filtered list
         Random random = new Random();
@@ -124,6 +133,9 @@ public class RecipeGeneratorService {
 
     //Parse cook time to string - Accounts for the recipe string cookTime vs the user input int
     private int parseCookTime(String cookTime){
+        if(cookTime == null || cookTime.isEmpty()){
+            return Integer.MAX_VALUE;
+        }
         try{
             return Integer.parseInt(cookTime.replaceAll("[^0-9]", ""));
         }catch (NumberFormatException e){

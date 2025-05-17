@@ -177,7 +177,7 @@ public class UserController {
 
     //User Information Page
     @GetMapping("/userInfo")
-    public String userInformationForm(Model model) {
+    public String userInformationForm(Model model, @ModelAttribute("successMessage") String successMessage) {
         //Retrieve currently logged-in users username 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username;
@@ -189,6 +189,7 @@ public class UserController {
         User user = userService.findByUsername(username);
 
         model.addAttribute("user", user);
+        model.addAttribute("successMessage", successMessage);
 
         return "userInformation";
     }
@@ -225,10 +226,7 @@ public class UserController {
         //Save user feedback
         feedbackService.saveFeedback(feedbackText, user);
 
-        //Feedback success message
-        redirectAttributes.addFlashAttribute("successMessage", "Feedback successfully submitted!");
-
-        model.addAttribute("user", user);
+        redirectAttributes.addFlashAttribute("successMessage", "User Feedback Submitted!");
         
         return "redirect:/users/userInfo";
     }

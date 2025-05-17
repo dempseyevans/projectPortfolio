@@ -41,6 +41,16 @@ public class Recipe {
     @OneToMany(mappedBy = "recipe", cascade = CascadeType.ALL, orphanRemoval=true)
     private List<RecipeIngredient> recipeIngredients = new ArrayList<>(); //Links the recipe and RecipeIngredients
 
+    public Recipe(Double cost, String descriptors, String instructions, String name) {
+        this.cost = cost;
+        this.descriptors = descriptors;
+        this.instructions = instructions;
+        this.name = name;
+    }
+
+    public Recipe() {
+    }
+
     public Long getRecipeID() {
         return recipeID;
     }

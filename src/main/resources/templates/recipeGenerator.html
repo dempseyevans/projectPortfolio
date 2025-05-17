@@ -16,7 +16,7 @@
         <div class ="generator-container">
             <h1> Generate a Random Recipe</h1>
             <!--Filter Form-->
-            <form th:action="@{/generator}" method="get">
+            <form th:action="@{/generator}" method="post">
                 <label for="costRange">Cost Range:</label>
                 <select id="costRange" name="costRange">
                     <option value="">None</option>
@@ -43,12 +43,18 @@
             </div>
 
             <!--Display the generated recipe-->
-            <div th:if="${recipe}" class="recipe-result">
-                <h2>Recipe Result</h2>
-                <p><strong>Name:</strong> <span th:text="${recipe.name}"></span></p>
-                <p><strong>Descriptors:</strong> <span th:text="${recipe.descriptors}"></span></p>
-                <p><strong>Cost Range:</strong> <span th:text="${recipe.cost}"></span></p>
-                <p><strong>Cook Time:</strong> <span th:text="${recipe.cookTime}"></span> minutes</p>
+            <div th:if="${recipe != null}" class="recipe-result">
+                <h2 th:text="${recipe.name}"></h2>
+                <p><strong>Descriptors:</strong><br>
+                    <span th:text="${recipe.descriptors}"></span></p>
+                <p><strong>Cost Range:</strong><br>
+                    <span th:switch="${recipe.cost}">
+                        <span th:case="1.0">$</span>
+                        <span th:case="2.0">$$</span>
+                        <span th:case="3.0">$$$</span>
+                    </span>
+                <p><strong>Cook Time:</strong><br>
+                    <span th:text="${recipe.cookTime}"></span> minutes</p>
                 
                 <h3>Ingredients</h3>
                 <ul>
@@ -57,7 +63,7 @@
                     </li>
                 </ul>
                 
-                <h3>instructions</h3>
+                <h3>Instructions</h3>
                 <p><span th:text="${recipe.instructions}"></span></p>
             </div>
         </div>
