@@ -1,4 +1,4 @@
-# Cookery
+# **Cookery**
 ## Senior Project Overview
 
 **Cookery** is a recipe management and meal planning application, designed to be a tool for the everyday cook.
