@@ -24,6 +24,6 @@
 - **Hosting**: GitHub
 
 
-##Documents for Getting Started:
+## Documents for Getting Started:
 - **Clone The respository**
 - **Find The DDL Script in the Architecture Plan**
