@@ -8,7 +8,7 @@
 
 ## The Application
 
-**Cookery** is a recipe management and meal planning application, designed to be a tool for the everyday cook.
+**Cookery** is a recipe management and meal planning application, designed to be a tool for the everyday cook. The application design uses an MVC architecture with the Spring Boot framework to focus on modularity and scalability. Spring Security manages user authentication, requiring users to register and log in to access the application. Upon logging in the users has full access to all functionality but only their personal ingredients and recipes. 
 
 ## Features
 
@@ -27,6 +27,7 @@
 
 - **Frontend**: HTML, CSS, Thymleaf
 - **Backend**: Java, Spring Boot
+- **Security**: Spring Security
 - **Database**: MySQL
 - **Hosting**: GitHub
 
