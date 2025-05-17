@@ -1,6 +1,6 @@
 # Why Cookery?
 
-## Living in a military community, I have had the priveledge of being apart of the full meal experience with adults in various phases of life. Through this time I have learned that planning, shopping, and cooking can look very different for each person. But I noticed that there were a few consistent problems everyone shared. 
+  Living in a military community, I have had the priveledge of being apart of the full meal experience with adults in various phases of life. Through this time I have learned that planning, shopping, and cooking can look very different for each person. But I noticed that there were a few consistent problems everyone shared. 
 - Difficulties finding specific recipes as they navigate through various pictures and social media accounts
 - Brain fog while meal planning
 - Difficulties meal planning on a budget
