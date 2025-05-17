@@ -6,6 +6,8 @@
 - **Docs** - Found in the 'main branch'. Contains Cookery documentation
 
 
+## The Application
+
 **Cookery** is a recipe management and meal planning application, designed to be a tool for the everyday cook.
 
 ## Features
