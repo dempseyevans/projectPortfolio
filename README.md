@@ -34,4 +34,4 @@
 
 ## Documents for Getting Started:
 - **Clone The respository**
-- **Find The DDL Script in the Architecture Plan**
+- **Find The DDL Script in the Architecture Plan ('Docs' folder)**
