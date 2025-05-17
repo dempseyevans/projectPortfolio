@@ -13,7 +13,7 @@
 
 # The Future  
 
-## Cookery was designed to focus on modularity and scalability. The evolution of cookery will focus around user feedback. While maintaining simplicity, the following features should be considered to be included in future application improvements;
+ Cookery was designed to focus on modularity and scalability. The evolution of cookery will focus around user feedback. While maintaining simplicity, the following features should be considered to be included in future application improvements;
 
 - User ability to e-mail existing recipes (or another feature to physically save recipes)
 - User ability to share and pull from community recipes
