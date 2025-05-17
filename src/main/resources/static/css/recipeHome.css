@@ -1,0 +1,126 @@
+/*Recipe Page Body */
+body {
+    background-color: #fffef9;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, sans-serif;
+    color: #6A7D6C;
+    padding: 0;
+    margin: 0;
+}
+
+/*Navbar*/
+nav {
+    background-color: #C1A4D6;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    width: 100%;
+    border-bottom: 2px solid #6A7D6C;
+}
+
+nav a {
+    color: #6A7D6C;
+    text-decoration: none;
+    font-size: 1rem;
+    padding: 5px 15px;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #FFEDED;
+}
+
+/*Heading*/
+h1 {
+    color: #B2E3F2;
+    text-align: center;
+    font-size: 2.5rem;
+    margin: 20px 0;
+    font-weight: 800;
+    text-shadow: 1px 1px 0 #6A7D6C;
+}
+
+/*Search Form*/
+.search-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.search-form input[type="text"] {
+    width: calc(100% - 80px);
+    padding: 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: 1px solid #C1A4D6;
+    background-color: #E6F7F8;
+    color: #6A7D6C;
+}
+
+.search-form button {
+    padding: 10px 15px;
+    border-radius: 5px;
+    border: none;
+    background-color: #C1A4D6;
+    color: #FFEDED;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #B2E3F2;
+}
+
+.search-form .refresh-button{
+    margin-left: 10px;
+}
+
+/*Table*/
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+table th {
+    color: #6A7D6C;
+    padding: 10px;
+    text-align: left;
+    border-bottom: 2px solid #C1A4D6;
+}
+
+table td {
+    color: #6A7D6C;
+    padding: 10px;
+    text-align: left;
+}
+
+table a {
+    color: #E8AC65;
+    text-decoration: none;
+}
+
+table a:hover {
+    color: #FFEDED;
+}
+
+/*Add Recipe Button*/
+.button-add {
+    display: block;
+    text-align: center;
+    padding: 10px 20px;
+    background-color: #B2E3F2;
+    color: #e6ac65;
+    border: 0.5px solid #6A92C6;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.button-add:hover {
+    background-color: #FFEDED;
+    color: #6A7D6C;
+}

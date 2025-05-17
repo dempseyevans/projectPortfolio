@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Create Recipe</title>
+    <link rel="stylesheet" href="/css/addRecipe.css"> <!-- Link to your new CSS file -->
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <a href="/recipes">Recipes</a>
+        <a href="/generator">Recipe Generator</a>
+        <a href="/ingredients">Ingredients</a>
+        <a href="/users/userInfo">More</a>
+        <a href="/logout">Logout</a>
+    </nav>
+
+    <h1>Create New Recipe</h1>
+
+    <div class="container">
+        <!-- Recipe Form -->
+        <form th:action="@{/recipes}" method="post" th:object="${recipe}">
+
+            <!-- Recipe Details Section -->
+            <section class="form-section">
+                <h2>Recipe Details</h2>
+                <div class="form-group">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" th:field="*{name}" required />
+                </div>
+                <div class="form-group">
+                    <label for="cookTime">Cook Time (in minutes):</label>
+                    <input type="text" id="cookTime" th:field="*{cookTime}" />
+                </div>
+                <div class="form-group">
+                    <label for="instructions">Instructions:</label>
+                    <textarea id="instructions" th:field="*{instructions}" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="descriptors">Descriptors (separate by ','):</label>
+                    <textarea id="descriptors" th:field="*{descriptors}"></textarea>
+                </div>
+            </section>
+
+            <!-- Ingredients Section -->
+            <section class="form-section">
+                <h2>Ingredients</h2>
+                <ul class="ingredients-list">
+                    <li th:each="ingredient : ${ingredients}">
+                        <input type="hidden" name="ingredientIds" th:value="${ingredient.id}" />
+                        <label>
+                            <span th:text="${ingredient.name}"></span>
+                            <input type="text" name="quantities" placeholder="Quantity" />
+                        </label>
+                    </li>
+                </ul>
+
+                <!-- Add New Ingredient Button -->
+                <button type="button" id="addIngredientButton">Add New Ingredient</button>
+            </section>
+
+            <!-- Submit Button -->
+            <div class="form-actions">
+                <button type="submit" class="submit-button" onclick="console.log('Save recipe button clicked')">Save Recipe</button>
+            </div>
+
+        </form>
+        <!-- Modal Dialog for Adding New Ingredients -->
+            <div id="addIngredientModal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <h3>Add New Ingredient</h3>
+                    <form id="newIngredientForm" novalidate>
+                        <label for="ingredientName">Ingredient Name:</label>
+                        <input type="text" id="ingredientName" name="name"/>
+
+                        <label for="ingredientPriceCategory">Price Category:</label>
+                        <select id="ingredientPriceCategory" name="priceCategory">
+                            <option value="1">$</option>
+                            <option value="2">$$</option>
+                            <option value="3">$$$</option>
+                        </select>
+
+                        <button type="button" id="submitIngredientButton">Submit Ingredient</button>
+                        <button type="button" id="closeModalButton">Cancel</button>
+                    </form>
+                </div>
+            </div>
+    </div>
+
+    <script>
+        // Show the modal dialog
+        document.getElementById("addIngredientButton").addEventListener("click", function() {
+            const modal = document.getElementById("addIngredientModal");
+            modal.style.display="block";
+
+            document.getElementById("ingredientName").setAttribute("required", true);
+            document.getElementById("ingredientPriceCategory").setAttribute("required", true);
+        });
+
+        // Close the modal dialog
+        document.getElementById("closeModalButton").addEventListener("click", function() {
+            const modal = document.getElementById("addIngredientModal");
+            modal.style.display= "none";
+
+            document.getElementById("ingredientName").removeAttribute("required");
+            document.getElementById("ingredientPriceCategory").removeAttribute("required");
+        });
+
+        // Submit the new ingredient asynchronously
+        document.getElementById("submitIngredientButton").addEventListener("click", function() {
+            const name = document.getElementById("ingredientName").value;
+            const priceCategory = document.getElementById("ingredientPriceCategory").value;
+
+            // Validate input fields
+            if (!name.trim() || !priceCategory.trim()) {
+                alert("Please provide both a name and a price category.");
+                return;
+            }
+
+            // Send the data to the server
+            fetch("/recipes/addIngredient", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                },
+                body: new URLSearchParams({
+                    name: name,
+                    priceCategory: priceCategory
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Failed to add ingredient");
+                }
+                return response.json(); // Parse JSON response
+            })
+            .then(ingredient => {
+                // Dynamically add the new ingredient to the list
+                const ul = document.querySelector(".ingredients-list");
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    <input type="hidden" name="ingredientIds" value="${ingredient.id}" />
+                    <label>
+                        <span>${ingredient.name}</span>
+                        <input type="text" name="quantities" placeholder="Quantity" />
+                    </label>
+                `;
+                ul.appendChild(li);
+
+                // Clear the modal inputs and close the modal
+                document.getElementById("ingredientName").value = "";
+                document.getElementById("ingredientPriceCategory").value = "";
+                document.getElementById("addIngredientModal").style.display = "none";
+            })
+            .catch(error => console.error("Error:", error));
+        });
+    </script>
+
+</body>
+</html>

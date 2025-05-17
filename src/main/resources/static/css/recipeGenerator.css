@@ -1,0 +1,179 @@
+/* General Body Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #FFFEF9;
+    color: #6A7D6C;
+}
+
+/* Navbar */
+nav {
+    background-color: #C1A4D6;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+    width: 100%;
+    border-bottom: 2px solid #6A7D6C;
+}
+
+nav a {
+    color: #6A7D6C;
+    text-decoration: none;
+    margin-left: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #FFEDED;
+    text-decoration: underline;
+}
+
+/* Container for the Generator */
+.generator-container {
+    width: 70%;
+    margin: 2rem auto;
+    background-color: #FFEDED;
+    padding: 2rem;
+    border: 1px solid #C1A4D6;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+}
+
+.generator-container h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    color: #B2E3F2;
+    font-weight: 800;
+    text-shadow: 1px 1px 0 #6A7D6C;
+}
+
+/* Style the Filter Form */
+.generator-form {
+    margin: 1rem auto;
+    text-align: center;
+}
+
+.generator-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    color: #6A7D6C;
+}
+
+.generator-form input[type="text"],
+.generator-form input[type="number"],
+.generator-form select {
+    width: 60%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #C1A4D6;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1rem;
+    background-color: #E6F7F8;
+    color: #6A7D6C;
+}
+
+.generator-form button {
+    background-color: #B2E3F2;
+    color: #FFEDED;
+    padding: 0.7rem 1.25rem;
+    border: 1px solid #6A92C6;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    display: inline-block;
+    margin: 0.5rem;
+    font-weight: bold;
+}
+
+.generator-form button:hover {
+    background-color: #FFEDED;
+    border-color: #6A7D6C;
+}
+
+/*Recipe Result Section */
+.recipe-result {
+    margin-top: 2rem;
+    text-align: left;
+    width: 90%;
+    margin: 2rem auto;
+}
+
+.recipe-result h2,
+.recipe-result h3 {
+    color: #e6ac65;
+    margin-bottom: 0.5rem;
+    text-align: left;
+}
+
+.recipe-result p {
+    font-size: 1rem;
+    margin: 0.5rem 0;
+}
+
+.recipe-result ul {
+    list-style-type: disc;
+    margin-left: 2rem;
+    font-size: 1rem;
+}
+
+/* Align with Recipe Home Button Styles */
+.button-add {
+    display: inline-block;
+    background-color: #B2E3F2;
+    color: #FFEDED;
+    padding: 0.5rem 1rem;
+    border: 0.5px solid #6A92C6;
+    text-align: center;
+    margin: 1rem auto;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.button-add:hover {
+    background-color: #FFEDED;
+    color: #6A7D6C;
+}
+
+/* Search Form Alignment */
+.search-form {
+    text-align: center;
+    margin: 1rem auto;
+}
+
+.search-form input[type="text"] {
+    padding: 0.5rem;
+    font-size: 1rem;
+    width: 60%;
+    border: 1px solid #C1A4D6;
+    border-radius: 4px;
+    background-color: #E6F7F8;
+    color: #6A7D6C;
+}
+
+.search-form .submit-button,
+.search-form .refresh-button {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    margin-left: 0.5rem;
+    border: 1px solid #6A92C6;
+    border-radius: 4px;
+    background-color: #B2E3F2;
+    color: #FFEDED;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.search-form .submit-button:hover,
+.search-form .refresh-button:hover {
+    background-color: #FFEDED;
+    color: #6A7D6C;
+    border-color: #6A7D6C;
+}

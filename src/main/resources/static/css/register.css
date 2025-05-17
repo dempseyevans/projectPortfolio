@@ -1,0 +1,87 @@
+/*Registration Page Body */
+body {
+    background-color: #E6F7F8;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    color: #6A7D6C;
+    padding-top: 50px;
+}
+
+/*Registration Form*/
+form {
+    background-color: #FFEDED;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 300px;
+    height: auto;
+    border: 1px solid #B2E3F2;
+}
+
+/*Title*/
+h1 {
+    color: #C1A4D6;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+/*Element Spacing*/
+div {
+    margin-bottom: 15px;
+}
+
+/*Text Boxes*/
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    display: block;
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin: 0 auto 15px auto;
+    border-radius: 5px;
+    border: 1px solid #C1A4D6;
+    background-color: #FFF8E5;
+    color: #6A7D6C;
+    font-size: 1rem;
+}
+
+/*Register Button*/
+button {
+    display: block;
+    width: 50%;
+    padding: 10px;
+    background-color: #B2E3F2;
+    color: #C89183;
+    border: 2px solid #C1A4D6;
+    border-radius: 5px;
+    cursor: pointer;
+    height: 50px;
+    margin: 0 auto;
+    font-size: 1rem;
+}
+
+button:hover {
+    background-color: #FFEDED;
+    border-color: #6A7D6C;
+}
+
+/*Registration Link*/
+a {
+    display: block;
+    margin-top: 10px;
+    color: #C1A4D6;
+    text-align: center;
+    font-size: 1rem;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #6A7D6C;
+    text-decoration: underline;
+}

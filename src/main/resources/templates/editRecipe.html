@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Recipe</title>
+    <link rel="stylesheet" href="/css/addRecipe.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="/generator">Recipe Generator</a>
+      <a href="/ingredients">Ingredients</a>
+      <a href="/users/userInfo">More</a>
+      <a href="/logout">Logout</a>
+  </nav>
+    <h1>Edit Recipe</h1>
+    <div class="container">
+      <form th:action="@{/recipes/edit/{id}(id=${recipe.recipeID})}" method="post" th:object="${recipe}">
+        <!-- Add a hidden field for the recipeID so the update knows this is an existing recipe -->
+        <input type="hidden" th:field="*{recipeID}" />
+        
+        <!-- Recipe Details Section -->
+        <section class="form-section">
+          <h2>Recipe Details</h2>
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input type="text" id="name" th:field="*{name}" required />
+          </div>
+          <div class="form-group">
+            <label for="cookTime">Cook Time (in minutes):</label>
+            <input type="text" id="cookTime" th:field="*{cookTime}" required />
+          </div>
+          <div class="form-group">
+            <label for="instructions">Instructions:</label>
+            <textarea id="instructions" th:field="*{instructions}" required></textarea>
+          </div>
+          <div class="form-group">
+            <label for="descriptors">Descriptors (separate by ','):</label>
+            <textarea id="descriptors" th:field="*{descriptors}"></textarea>
+          </div>
+        </section>
+  
+        <!-- Current Ingredients (Existing) Section -->
+        <section class="form-section">
+          <h2>Current Ingredients</h2>
+          <ul class="ingredients-list">
+            <!-- Iterate over the recipe's current ingredients (RecipeIngredient objects) -->
+            <li th:each="ri : ${recipe.recipeIngredients}">
+              <input type="hidden" name="existingRecipeIngredientIds" th:value="${ri.ingredient.id}" />
+              <label>
+                <span th:text="${ri.ingredient.name}"></span>
+                <input type="text" name="existingQuantities" th:value="${ri.quantity}" placeholder="Quantity" />
+              </label>
+            </li>
+          </ul>
+        </section>
+
+      <div class="separator"></div>
+  
+        <h2>Available Ingredients</h2>
+        <ul class="ingredients-list">
+          <li th:each="ingredient : ${availableIngredientsSorted}">
+              <input type="hidden" name="newIngredientIds" th:value="${ingredient.id}" />
+              <label>
+                  <span th:text="${ingredient.name}"></span>
+                  <input type="text" name="newQuantities" value="" placeholder="Quantity" />
+              </label>
+          </li>
+      </ul>
+
+
+        <!-- New Ingredients Section -->
+        <button type="button" id="addIngredientButton">Add New Ingredient</button>
+
+        <div id="addIngredientModal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <h3>Add New Ingredient</h3>
+                <form id="newIngredientForm" novalidate>
+                    <label for="ingredientName">Ingredient Name:</label>
+                    <input type="text" id="ingredientName" name="name"/>
+        
+                    <label for="ingredientPriceCategory">Price Category:</label>
+                    <select id="ingredientPriceCategory" name="priceCategory">
+                        <option value="1">$</option>
+                        <option value="2">$$</option>
+                        <option value="3">$$$</option>
+                    </select>
+        
+                    <button type="button" id="submitIngredientButton">Submit Ingredient</button>
+                    <button type="button" id="closeModalButton">Cancel</button>
+                </form>
+            </div>
+        </div>
+  
+        <!-- Submit Button -->
+        <div class="form-actions">
+          <button type="submit" class="submit-button">Save Changes</button>
+          <a class="back-link" th:href="@{/recipes}">Back to Recipes</a>
+        </div>
+      </form>
+    </div>
+
+    <script defer>
+    document.getElementById("addIngredientButton").addEventListener("click", function() {
+        document.getElementById("addIngredientModal").style.display = "block";
+    });
+
+    document.getElementById("closeModalButton").addEventListener("click", function() {
+        document.getElementById("addIngredientModal").style.display = "none";
+    });
+
+    // Handle ingredient submission
+    document.getElementById("submitIngredientButton").addEventListener("click", function() {
+        const name = document.getElementById("ingredientName").value;
+        const priceCategory = document.getElementById("ingredientPriceCategory").value;
+
+        // Validate input
+        if (!name.trim() || !priceCategory.trim()) {
+            alert("Please provide both a name and a price category.");
+            return;
+        }
+
+        // Send data via fetch
+        fetch("/recipes/addIngredient", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({ name: name, priceCategory: priceCategory })
+        })
+        .then(response => response.json())
+        .then(ingredient => {
+            const ul = document.querySelector(".ingredients-list");
+            const li = document.createElement("li");
+            li.innerHTML = `
+                <input type="hidden" name="newIngredientIds" value="${ingredient.id}" />
+                <label>
+                    <span>${ingredient.name}</span>
+                    <input type="text" name="newQuantities" placeholder="Quantity" />
+                </label>
+            `;
+            ul.appendChild(li);
+
+            // Clear modal inputs and close it
+            document.getElementById("ingredientName").value = "";
+            document.getElementById("ingredientPriceCategory").value = "";
+            document.getElementById("addIngredientModal").style.display = "none";
+        })
+        .catch(error => console.error("Error:", error));
+    });
+</script>
+  </body>
+</html>
