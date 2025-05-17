@@ -1,6 +1,11 @@
 # **Cookery**
 ## Senior Project Overview
 
+## Navigating the Portfolio ##
+- **Code** - Found in the 'code' branch
+- **Docs** - Found in the 'main branch'. Contains Cookery documentation
+
+
 **Cookery** is a recipe management and meal planning application, designed to be a tool for the everyday cook.
 
 ## Features
