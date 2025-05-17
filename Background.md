@@ -5,7 +5,7 @@
 - Brain fog while meal planning
 - Difficulties meal planning on a budget
 
-  While applications exist with tools for these problems, they are still loaded with excesss information and a finanical costs without a trial. Cookery aims to lessen the technological burden while maximizing its existing features. We want it to feel like your personal cookbook, true to your lifestyle and needs.
+ While applications exist with tools for these problems, they are still loaded with excesss information and a finanical costs without a trial. Cookery aims to lessen the technological burden while maximizing its existing features. We want it to feel like your personal cookbook, true to your lifestyle and needs.
 
   The recipe generator aims to support meal planning by randomly pulling from the users own ingredients. To meet the users changing needs and cravings, the user can input criteria to filter the generated recipes. This also allows users to input ingredients they have on hand and the application will generate recipes that include those ingredients.
 
