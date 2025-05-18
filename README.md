@@ -3,7 +3,7 @@
 
 ## Navigating the Portfolio ##
 - **Code** - Found in the 'code' branch
-- **Docs** - Found in the 'main' branch. Contains Cookery documentation
+- **Docs** - Found in the 'main' branch. Contains Cookery documentation. Includes design diagrams and requirements.
 - **CodeSnippets** - Found in the 'main' branch. Contains small pieces of notable code
 
 
