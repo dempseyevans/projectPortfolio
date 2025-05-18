@@ -3,19 +3,19 @@
 **Show New Recipe Form**
 The code below demonstrates how Principal is used to link the user to the data
 
-@GetMapping("/new")
-    public String showAddRecipeForm(Model model, Principal principal) {
-        
-        model.addAttribute("recipe", new Recipe());
-        
-        //User information to associate with recipe
-        User user = userService.findByUsername(principal.getName());
 
-        //List of users existing ingredients and debugging
-        List<Ingredient> ingredients = ingredientService.findAllByUser(user.getId());
-        ingredients.forEach(ingredient -> System.out.println("ID: " + ingredient.getId() + "Name: " + ingredient.getName()));
-
-        model.addAttribute("ingredients", ingredientService.findAllByUser(user.getId()));
+        @GetMapping("/new")
+        public String showAddRecipeForm(Model model, Principal principal) {
+            model.addAttribute("recipe", new Recipe());
+            
+            //User information to associate with recipe
+            User user = userService.findByUsername(principal.getName());
+    
+            //List of users existing ingredients and debugging
+            List<Ingredient> ingredients = ingredientService.findAllByUser(user.getId());
+            ingredients.forEach(ingredient -> System.out.println("ID: " + ingredient.getId() + "Name: " + ingredient.getName()));
+    
+            model.addAttribute("ingredients", ingredientService.findAllByUser(user.getId()));
 
 ##
 **Recipe Cost Calculation**
