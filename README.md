@@ -35,6 +35,12 @@ The process of this project focused on scrum methodology, completing the project
 - **Hosting**: GitHub
 
 
-## Documents for Getting Started:
+## Getting Started:
 - **Clone The respository**
 - **Find The DDL Script in the Architecture Plan ('Docs' folder)**
+- Using MySQL Workbench, or your perferred tool to connect to your local database, use the script to create a new database. If needed, first create a new scheme.
+- In the application, update the properties file to match your database. If a new schema was added, be sure to include it. Tables names may need to be annotated in the entity classes as well.
+- Ensure the servers for the database are running
+- Run the application
+- In your internet browser, visit localhost:8080
+- The login page should appear. Register as a new user.
